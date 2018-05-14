@@ -628,8 +628,8 @@ function CTHTDGameMode:OnHeroSpawned(keys)
 
 				elseif SpawnSystem:GetWave() >= 52 then
 					if SpawnSystem:GetWave() > (80+(GameRules:GetCustomGameDifficulty()-1)*10) then 
-					 	ServerEvent( "set_can_select_free_mode", heroPlayerID, {} )
-					 	GiveTouhouGamePoints(heroPlayerID, math.floor(50+hero.thtd_game_info["creature_kill_count"]/5*(1+(GameRules:GetCustomGameDifficulty()-1)*0.5)))
+					 	--ServerEvent( "set_can_select_free_mode", heroPlayerID, {} )
+					 	--GiveTouhouGamePoints(heroPlayerID, math.floor(50+hero.thtd_game_info["creature_kill_count"]/5*(1+(GameRules:GetCustomGameDifficulty()-1)*0.5)))
 					 	GameRules:SetGameWinner(DOTA_TEAM_GOODGUYS)
 					 	return nil
 					end
@@ -658,7 +658,7 @@ function CTHTDGameMode:OnHeroSpawned(keys)
 							UnitStunTarget( hero,hero,-1)
 							hero:AddNoDraw()
 							CTHTDGameMode:THTD_CreateCreepEffect(count,hero)
-							GiveTouhouGamePoints(heroPlayerID, math.floor(50+hero.thtd_game_info["creature_kill_count"]/10*(1+(GameRules:GetCustomGameDifficulty()-1)*0.5)))
+							--GiveTouhouGamePoints(heroPlayerID, math.floor(50+hero.thtd_game_info["creature_kill_count"]/10*(1+(GameRules:GetCustomGameDifficulty()-1)*0.5)))
 
 							local isEndGame = true
 							local heroes = Entities:FindAllByClassname("npc_dota_hero_lina")
@@ -730,10 +730,10 @@ function CTHTDGameMode:OnHeroSpawned(keys)
 		hero:AddItem(item)
 		hero.choose_item_3 = item
 
-		if HasTouhouVIP(heroPlayerID) then
+		--[[if HasTouhouVIP(heroPlayerID) then
 			item = CreateItem("item_1010", hero, hero)
 			hero:AddItem(item)
-		end
+		end]]
 
 		local origin = shopFoodOrigin[hero:GetPlayerOwnerID()+1]
 		self:THTD_InitFoodMsgEffect(hero)
@@ -843,7 +843,7 @@ function CTHTDGameMode:OnPlayerSay( keys )
 		elseif text == "-quest" then
 			QuestSystem:Update( 0, {Type="wave_clear", Wave=50} )
 		elseif text == "-server" then
-			ServerEvent( "set_can_select_free_mode", keys.playerid, {} )
+			--ServerEvent( "set_can_select_free_mode", keys.playerid, {} )
 		end
 	end
 end

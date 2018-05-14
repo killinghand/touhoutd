@@ -108,7 +108,7 @@ function public:Complete()
 	if self:IsState(QUEST_STATE_FINISHED) then
 		self:SetState(QUEST_STATE_COMPLETED)
 		self:GiveCompletedRewards()
-		ServerEvent( "completed_quest", self.iPlayerID, {quest=self:GetQuestName()} )
+		--ServerEvent( "completed_quest", self.iPlayerID, {quest=self:GetQuestName()} )
 		CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer( self.iPlayerID ), 
 			"quest_system_completed_msg",
 			{quest = self:GetQuestName()})

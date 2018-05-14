@@ -149,7 +149,7 @@ CustomEvent.on('custom_game_complete_select_cards', function(data)
 	if PlayersCompleteStatus[data.PlayerID] == 1 then return end
 
 	local mode = data["mode"] -- 选择的模式
-	if mode == "Free" and CanSelectFreeMode(data.PlayerID) then -- 自由选择
+	if mode == "Free" then -- 自由选择
 		local cards = data["cards"] -- 选择的卡组
 		for k,v in pairs(cards) do
 			local itemTable = 
@@ -162,57 +162,32 @@ CustomEvent.on('custom_game_complete_select_cards', function(data)
 		end
 		PrintTable(towerPlayerList[data.PlayerID+1])
 
-		if not HasTouhouVIP(data.PlayerID) then
-			ServerEvent( "save_selected_cards", data.PlayerID, {cards=cards} )
-		end
+		--if not HasTouhouVIP(data.PlayerID) then
+			--ServerEvent( "save_selected_cards", data.PlayerID, {cards=cards} )
+		--end
 	
-	elseif mode == "AutoRandom" or not CanSelectFreeMode(data.PlayerID) then -- 自动随机
-		if HasAutoRandomExtensionPacks(data.PlayerID) then
-			towerPlayerList[data.PlayerID+1] = {}
-			for k,v in pairs(towerNameList) do
-				local itemTable = 
-				{
-					["itemName"] = k,
-					["quality"]= towerNameList[k]["quality"],
-					["count"]= 5,
-				}
-				if itemTable["quality"] == 1 then
-					itemTable["count"] = 10
-				end
-				if string.find(itemTable["itemName"], 'item_20') ~= nil then
-					if itemTable["itemName"] == "item_2021" or itemTable["itemName"] == "item_2022" 
-					or itemTable["itemName"] == "item_2023" or itemTable["itemName"] == "item_2024" then
-						itemTable["count"] = 1
-					else
-						itemTable["count"] = 4
-					end
-				end
-				if v["kind"] ~= "BonusEgg" then
-					table.insert(towerPlayerList[data.PlayerID+1],itemTable)
+	elseif mode == "AutoRandom" then -- 自动随机
+		
+		local cardpool = GetPlayerCardPool(data.PlayerID)
+		for k,v in pairs(cardpool) do
+			local itemTable = 
+			{
+				["itemName"] = k,
+				["quality"]= towerNameList[k]["quality"],
+				["count"]= 5,
+			}
+			if itemTable["quality"] == 1 then
+				itemTable["count"] = 10
+			end
+			if string.find(itemTable["itemName"], 'item_20') ~= nil then
+				if itemTable["itemName"] == "item_2021" or itemTable["itemName"] == "item_2022" 
+				or itemTable["itemName"] == "item_2023" or itemTable["itemName"] == "item_2024" then
+					itemTable["count"] = 1
+				else
+					itemTable["count"] = 4
 				end
 			end
-		else
-			local cardpool = GetPlayerCardPool(data.PlayerID)
-			for k,v in pairs(cardpool) do
-				local itemTable = 
-				{
-					["itemName"] = k,
-					["quality"]= towerNameList[k]["quality"],
-					["count"]= 5,
-				}
-				if itemTable["quality"] == 1 then
-					itemTable["count"] = 10
-				end
-				if string.find(itemTable["itemName"], 'item_20') ~= nil then
-					if itemTable["itemName"] == "item_2021" or itemTable["itemName"] == "item_2022" 
-					or itemTable["itemName"] == "item_2023" or itemTable["itemName"] == "item_2024" then
-						itemTable["count"] = 1
-					else
-						itemTable["count"] = 4
-					end
-				end
-				table.insert(towerPlayerList[data.PlayerID+1],itemTable)
-			end
+			table.insert(towerPlayerList[data.PlayerID+1],itemTable)	
 		end
 		PrintTable(towerPlayerList[data.PlayerID+1])
 	end

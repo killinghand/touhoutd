@@ -34,5 +34,5 @@ end)
 -- 奖励阴阳玉
 Quest:OnGiveReward( function ( quest, reward )
 	if reward[1] ~= "yinyangyu" then return end
-	GiveTouhouGamePoints( quest.iPlayerID, reward[2] )
+	--GiveTouhouGamePoints( quest.iPlayerID, reward[2] )
 end)
