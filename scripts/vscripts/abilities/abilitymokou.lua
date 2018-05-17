@@ -29,7 +29,7 @@ function OnMokou01AttackLanded(keys)
 	if crit > 1 then
 		local damage = keys.attack_damage * crit
 
-		if caster.thtd_mokou_01_crit_damage * 2 < (2^(caster:THTD_GetStar()+1)) then
+		if caster.thtd_mokou_01_crit_damage * 2 < (2^(caster:THTD_GetStar())) then
 			caster.thtd_mokou_01_crit_damage = caster.thtd_mokou_01_crit_damage * 2
 		end
 		local radius = 150

@@ -112,6 +112,7 @@ function Patchouli01MercuryPoison(keys)
 			local targets = THTD_FindUnitsInRadius(caster,targetPoint,300)
 			for k,v in pairs(targets) do
 				if v:HasModifier("modifier_patchouli_01_mercury_poison_debuff") == false then
+					v.thtd_poison_buff = v.thtd_poison_buff + 1
 					keys.ability:ApplyDataDrivenModifier(caster, v, "modifier_patchouli_01_mercury_poison_debuff", nil)
 				end
 			end

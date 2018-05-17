@@ -52,6 +52,7 @@ function OnHatate01AttackLanded(keys)
 end
 
 function OnHatate02SpellStart(keys)
+	if GameRules:IsGamePaused() then return end
 	local caster = EntIndexToHScript(keys.caster_entindex)
 	local inners = THTD_FindUnitsInner(caster)
 	local outers = THTD_FindUnitsOuter(caster)

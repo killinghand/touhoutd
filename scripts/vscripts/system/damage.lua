@@ -7,9 +7,9 @@ local thtd_daiyousei_damage_bonus =
 
 local thtd_momiji_damage_bonus =
 {
-    [3] = 0.4,
-    [4] = 0.55,
-    [5] = 0.8,
+    [3] = 0.3,
+    [4] = 0.4,
+    [5] = 0.6,
 }
 
 function UnitDamageTarget(damage_table)
@@ -36,6 +36,12 @@ function UnitDamageTarget(damage_table)
         DamageTable.damage = DamageTable.damage + DamageTable.attacker:THTD_GetPower()
     end
 
+    if DamageTable.victim:HasModifier("modifier_miko_01_debuff") then
+        local modifier = DamageTable.victim:FindModifierByName("modifier_miko_01_debuff")
+        local miko = modifier:GetCaster()
+        DamageTable.damage = DamageTable.damage + miko:THTD_GetPower()
+    end
+
     if DamageTable.attacker:FindModifierByName("modifier_daiyousei_03") ~= nil then
 		local modifier = DamageTable.attacker:FindModifierByName("modifier_daiyousei_03")
 		local daiyousei = modifier:GetCaster()
@@ -47,6 +53,7 @@ function UnitDamageTarget(damage_table)
 			end
 		end
 		DamageTable.damage_type = DAMAGE_TYPE_MAGICAL 
+        DamageTable.damage_flags = DOTA_DAMAGE_FLAG_IGNORES_MAGIC_ARMOR
     elseif DamageTable.attacker:FindModifierByName("modifier_momiji_02") ~= nil then
         local modifier = DamageTable.attacker:FindModifierByName("modifier_momiji_02")
         local momiji = modifier:GetCaster()
@@ -71,12 +78,24 @@ function ReturnAfterTaxDamage(DamageTable)
     local unit = DamageTable.attacker
     local target = DamageTable.victim
 
+     if target:HasModifier("modifier_bosses_hina") then
+        if unit:THTD_IsTower() then
+            if DamageTable.damage > unit:THTD_GetPower()*unit:THTD_GetStar()*4 then
+                DamageTable.damage = DamageTable.damage * 0.5
+            end
+        end
+    end
+
     if unit.thtd_damage_outgoing ~= nil and unit.thtd_damage_outgoing ~= 0 then
         DamageTable.damage = DamageTable.damage * (1 + unit.thtd_damage_outgoing/100)
     end
 
     if target.thtd_damage_incoming ~= nil and target.thtd_damage_incoming ~= 0 then
         DamageTable.damage = DamageTable.damage * (1 + target.thtd_damage_incoming/100)
+    end
+
+    if target:HasModifier("modifier_bosses_kisume") then
+        DamageTable.damage = DamageTable.damage - 2000
     end
 
     if (target:GetHealth()/target:GetMaxHealth())>0.7 and unit:HasModifier("modifier_item_2025_damage") then
@@ -87,7 +106,7 @@ function ReturnAfterTaxDamage(DamageTable)
         DamageTable.damage = DamageTable.damage * 1.5
     end
 
-    if unit.equip_bonus_table ~= nil then
+    if unit.equip_bonus_table ~= nil and target:HasModifier("modifier_bosses_mokou")==false then
         if RandomInt(0,100) < unit.equip_bonus_table["crit_chance"] + unit.thtd_crit_chance then
             DamageTable.damage = DamageTable.damage * (1.5 + unit.equip_bonus_table["crit_damage"]/100)
             -- SendOverheadEventMessage(unit:GetPlayerOwner(), OVERHEAD_ALERT_CRITICAL, target, DamageTable.damage, unit:GetPlayerOwner() )
@@ -115,7 +134,7 @@ function ReturnAfterTaxDamage(DamageTable)
         local armor = target:GetPhysicalArmorValue()
 
         if unit:HasModifier("modifier_utsuho_rin_buff") then
-            DamageTable.damage = DamageTable.damage * 1.35
+            DamageTable.damage = DamageTable.damage * 1.2
         end
 
         if unit.thtd_physical_damage_outgoing ~= nil and unit.thtd_physical_damage_outgoing ~= 0 then
@@ -131,13 +150,13 @@ function ReturnAfterTaxDamage(DamageTable)
         end
         
         if armor >= 0 then
+            DamageTable.damage = DamageTable.damage / ((1 - (armor * 0.05) /(1 + armor * 0.05)))
             if unit.equip_bonus_table ~= nil then
                 armor = armor * (1 - unit.equip_bonus_table["physical_penetration_percentage"]/100)
             end
             if unit.thtd_physical_penetration ~= nil and armor > 0 then
                 armor = math.max(0,armor + unit.thtd_physical_penetration)
             end
-            DamageTable.damage = DamageTable.damage / ((1 - (armor * 0.05) /(1 + armor * 0.05)))
             local damage_decrease = (1 - (armor * 0.04) /(1 + armor * 0.04))
             if damage_decrease <= 0.33 then
                 damage_decrease = 0.33

@@ -71,6 +71,7 @@ towerNameList = {
 	["item_0088"]={["kind"]="sizuha",["quality"]=2,["hasPortrait"]=false,["hasVoice"]=true}, -- 秋静叶
 	["item_0094"]={["kind"]="soga",["quality"]=3,["hasPortrait"]=true,["hasVoice"]=true}, -- 苏我屠自古
 	["item_0095"]={["kind"]="futo",["quality"]=3,["hasPortrait"]=true,["hasVoice"]=false}, -- 物部布都
+	["item_0097"]={["kind"]="yoshika",["quality"]=2,["hasPortrait"]=true,["hasVoice"]=false}, -- 宫古芳香
 
 	["item_2001"]={["kind"]="item_2001",["quality"]=3,["hasPortrait"]=false,["hasVoice"]=false},
 	["item_2002"]={["kind"]="item_2002",["quality"]=4,["hasPortrait"]=false,["hasVoice"]=false},
@@ -510,6 +511,13 @@ thtd_power_table =
 		[4] = {400,7.0},
 		[5] = {2000,12},
 	},
+	["yoshika"] = {
+		[1] = {15,2},
+		[2] = {60,3.5},
+		[3] = {160,5},
+		[4] = {375,6.5},
+		[5] = {1800,10},
+	},
 }
 
 -- 这个表是每颗星增加多少攻击
@@ -917,6 +925,13 @@ thtd_attack_table =
 		[3] = {190,5},
 		[4] = {400,7.0},
 		[5] = {2000,12},
+	},
+	["yoshika"] = {
+		[1] = {15,2},
+		[2] = {60,3.5},
+		[3] = {160,5},
+		[4] = {375,6.5},
+		[5] = {1800,10},
 	},
 }
 
@@ -1368,6 +1383,14 @@ thtd_ability_table =
 		[4] = {["thtd_futo_01"] = 1,["thtd_futo_02"] = 1,["thtd_futo_03"] = 1},
 		[5] = {["thtd_futo_01"] = 1,["thtd_futo_02"] = 1,["thtd_futo_03"] = 1},
 	},
+
+	["yoshika"] = {
+		[1] = {["thtd_yoshika_01"] = 1,["thtd_yoshika_02"] = 0},
+		[2] = {["thtd_yoshika_01"] = 2,["thtd_yoshika_02"] = 0},
+		[3] = {["thtd_yoshika_01"] = 3,["thtd_yoshika_02"] = 1},
+		[4] = {["thtd_yoshika_01"] = 4,["thtd_yoshika_02"] = 1},
+		[5] = {["thtd_yoshika_01"] = 5,["thtd_yoshika_02"] = 1},
+	},
 }		
 
 thtd_combo_table = 
@@ -1390,6 +1413,7 @@ thtd_combo_table =
 	["rumia_reimu"] = {"rumia","reimu"},
 	["suwako_kanako_sanae"] = {"suwako","kanako","sanae"},
 	["nue_minamitsu"] = {"minamitsu","nue"},
+	["futo_soga"] = {"futo","soga"},
 }
 
 thtd_ability_minoriko_star_up_table = 
@@ -2097,6 +2121,7 @@ local thtd_Unique_Slow_Buff =
 	"modifier_sanae_debuff",
 	"modifier_minamitsu_01_slow_buff",
 	"modifier_kogasa_upgrade_debuff",
+	"modifier_yoshika_01_slow",
 }
 
 

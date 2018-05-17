@@ -26,7 +26,7 @@ function OnSakuya01SpellStart(keys)
 			iVisionRadius = 1000,
 			iVisionTeamNumber = caster:GetTeamNumber()
 	}
-	projectile = ProjectileManager:CreateLinearProjectile(info)
+	local projectile = ProjectileManager:CreateLinearProjectile(info)
 	ParticleManager:DestroyLinearProjectileSystem(projectile,false)
 
 	local count = 6
@@ -87,6 +87,7 @@ local sakuya_02_black_list =
 	"thtd_toramaru_03",
 	"thtd_kanako_04",
 	"thtd_sanae_04",
+	"thtd_miko_04",
 }
 
 function IsInSakuya02BlackList(ability)

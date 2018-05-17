@@ -721,6 +721,38 @@ function CDOTA_BaseNPC:THTD_minamitsu_thtd_combo(combo)
 	return comboVoiceTable
 end
 
+function CDOTA_BaseNPC:THTD_futo_thtd_combo(combo)
+	local comboVoiceTable = {}
+	if HasCombo(combo,"futo_soga") then
+		if self.thtd_futo_02_buff_max_count ~= 15 then
+			self.thtd_futo_02_buff_max_count = 15
+		end
+	else
+		if self.thtd_futo_02_buff_max_count ~= 10 then
+			self.thtd_futo_02_buff_max_count = 10
+		end
+	end
+	combo = {}
+	return comboVoiceTable
+end
+
+function CDOTA_BaseNPC:THTD_soga_thtd_combo(combo)
+	local comboVoiceTable = {}
+
+	if HasCombo(combo,"futo_soga") then
+		if self.thtd_soga_03_debuff ~= true then
+			self.thtd_soga_03_debuff = true
+		end
+	else
+		if self.thtd_soga_03_debuff ~= false then
+			self.thtd_soga_03_debuff = false
+		end
+	end
+	combo = {}
+	return comboVoiceTable
+end
+
+
 function HasCombo(combo,name)
 	for k,v in pairs(combo) do
 		if k == name then

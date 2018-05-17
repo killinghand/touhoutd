@@ -26,7 +26,7 @@ function OnKanako01SpellStart(keys)
 			iVisionRadius = 1000,
 			iVisionTeamNumber = caster:GetTeamNumber()
 	}
-	projectile = ProjectileManager:CreateLinearProjectile(info)
+	local projectile = ProjectileManager:CreateLinearProjectile(info)
 	ParticleManager:DestroyLinearProjectileSystem(projectile,false)
 	
 	local origin = targetPoint + targetForward * 150

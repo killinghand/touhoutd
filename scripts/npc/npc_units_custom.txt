@@ -732,4 +732,98 @@
 		"Ability15"	""
 		"Ability16"	""
 	}
+
+	"creature_alice_ningyou"
+	{
+		// Model.
+		"Model"		"models/thd_hero/shanghainingyou/shanghainingyou.vmdl"
+		"BaseClass"	"npc_dota_creature"
+		"SoundSet"	"Creep_Good_Range"
+		"GameSoundsFile"	"soundevents/game_sounds_creeps.vsndevts"
+		"Level"	"10"
+		"ModelScale"	"0.8"
+		// Abilities
+		// ----------------------------------------------------------------
+		// Ability 1
+		"Ability1"	""
+		// Ability 2
+		"Ability2"	""
+		// Ability 3
+		"Ability3"	""
+		// Ability 4
+		"Ability4"	""
+		// Armor
+		// ----------------------------------------------------------------
+		// Physical protection.
+		"ArmorPhysical"	"60"
+		"MagicalResistance"	"60"
+		// Attack
+		// ----------------------------------------------------------------
+		"AttackCapabilities"	"DOTA_UNIT_CAP_NO_ATTACK"
+		// Damage range min.
+		"AttackDamageMin"	"130000"
+		// Damage range max.
+		"AttackDamageMax"	"130000"
+		// Speed of attack.
+		"AttackRate"	"0.6"
+		// Normalized time in animation cycle to attack.
+		"AttackAnimationPoint"	"0.2"
+		// Range within a target can be acquired.
+		"AttackAcquisitionRange"	"400"
+		// Range within a target can be attacked.
+		"AttackRange"	"120"
+		// Bounds
+		// ----------------------------------------------------------------
+		"RingRadius"	"40"
+		"HealthBarOffset"	"170"
+		// Bounty
+		// ----------------------------------------------------------------
+		// Experience earn.
+		"BountyXP"	"0"
+		// Gold earned min.
+		"BountyGoldMin"	"1"
+		// Gold earned max.
+		"BountyGoldMax"	"1"
+		// Movement
+		// ----------------------------------------------------------------
+		"MovementCapabilities"	"DOTA_UNIT_CAP_MOVE_GROUND"
+		// Speed.
+		"MovementSpeed"	"480"
+		// Status
+		// ----------------------------------------------------------------
+		// Base health.
+		"StatusHealth"	"24000"
+		// Health regeneration rate.
+		"StatusHealthRegen"	"0"
+		// Base mana.
+		"StatusMana"	"0"
+		// Mana regeneration rate.
+		"StatusManaRegen"	"0.0"
+		// Vision
+		// ----------------------------------------------------------------
+		// Range of vision during day light.
+		"VisionDaytimeRange"	"1800"
+		// Range of vision at night time.
+		"VisionNighttimeRange"	"1800"
+		// Team
+		// ----------------------------------------------------------------
+		// Team name.
+		"TeamName"	"DOTA_TEAM_NEUTRALS"
+		"CombatClassAttack"	"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
+		"CombatClassDefend"	"DOTA_COMBAT_CLASS_DEFEND_BASIC"
+		"UnitRelationshipClass"	"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+		
+		"Ability5"	""
+		"Ability6"	""
+		"Ability7"	""
+		"Ability8"	""
+		"Ability9"	""
+		"Ability10"	""
+		"Ability11"	""
+		"Ability12"	""
+		"Ability13"	""
+		"Ability14"	""
+		"Ability15"	""
+		"Ability16"	""
+	}
 }

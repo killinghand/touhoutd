@@ -4,10 +4,14 @@ function OnMugiyousei01AttackLanded(keys)
 	local damage = caster:THTD_GetStar() * caster:THTD_GetPower()
 	local count = 0
 
+	target.thtd_poison_buff = target.thtd_poison_buff + 1
 	target:SetContextThink(DoUniqueString("thtd_mugiyousei01_attack"), 
 		function()
 			if GameRules:IsGamePaused() then return 0.03 end
-			if count > 5 then return nil end
+			if count > 5 then 
+				target.thtd_poison_buff = target.thtd_poison_buff - 1
+				return nil 
+			end
 			count = count + 1
 			local DamageTable = {
 		   			ability = keys.ability,

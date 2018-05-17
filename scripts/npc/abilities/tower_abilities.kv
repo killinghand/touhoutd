@@ -7281,6 +7281,10 @@
 				"Target"		"POINT"
 			}
 		}
+		"modifier_soga_03_debuff"
+		{
+			"IsHidden"			"1"
+		}
 	}
 
 	"thtd_futo_01"
@@ -7408,16 +7412,11 @@
 		"MaxLevel"						"1"
 		"AbilityCooldown"				"5"
 		"AbilityManaCost"				"0"
-		// Stats
-		// ----------------------------------------------------------------
-		"AbilityCastRange"				"1000"
-		"AOERadius"						"500"
 		"AbilityCastAnimation"			"ACT_DOTA_CHANNEL_ABILITY_1"
-		"AbilityCooldown"				"0.1"
 
 		"precache"
 		{
-			"particle"			""
+			"particle"			"particles/heroes/thtd_miko/ability_miko_01.vpcf"
 		}
 
 		"OnSpellStart"
@@ -7440,6 +7439,12 @@
 					"MODIFIER_STATE_STUNNED"	"MODIFIER_STATE_VALUE_ENABLED"
 				}
 			}
+			"modifier_miko_01_debuff"
+			{
+
+				"EffectName"			"particles/heroes/thtd_miko/ability_miko_01.vpcf"
+				"EffectAttachType"		"follow_origin"
+			}
 		}
 	}
 
@@ -7461,7 +7466,7 @@
 
 		"precache"
 		{
-			"particle"			"particles/heroes/byakuren/ability_byakuren_04_circle.vpcf"
+			"particle"			"particles/heroes/thtd_miko/ability_miko_02_buff.vpcf"
 		}
 
 		"OnSpellStart"
@@ -7478,8 +7483,6 @@
 		{
 			"modifier_miko_02_aura"
 			{
-				"EffectName"			""
-				"EffectAttachType"		"follow_origin"
 				"Passive"				"1"
 				"ThinkInterval"			"0.1"
 
@@ -7495,7 +7498,7 @@
 
 			"modifier_miko_02_buff"
 			{
-				"EffectName"			"particles/heroes/byakuren/ability_byakuren_04_circle.vpcf"
+				"EffectName"			"particles/heroes/thtd_miko/ability_miko_02_buff.vpcf"
 				"EffectAttachType"		"follow_origin"
 			}
 		}
@@ -7506,6 +7509,208 @@
 			{
 				"var_type"		"FIELD_FLOAT"
 				"radius"		"1500"
+			}
+		}
+	}
+
+	"thtd_miko_03"
+	{
+		"BaseClass"				"ability_datadriven"
+		"AbilityTextureName"	"touhoutd/thtd_miko_03"
+		"AbilityBehavior"		"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityUnitTargetType"	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitTargetTeam"	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"	"DAMAGE_TYPE_MAGICAL"
+		"MaxLevel"				"1"
+
+		// Stats
+		// ----------------------------------------------------------------
+		"AbilityCastRange"		"1200"
+
+		"precache"
+		{
+			"particle"			"particles/heroes/thtd_miko/ability_miko_03.vpcf"
+		}
+
+		"OnProjectileHitUnit"
+		{
+			"DeleteOnHit"			"true"
+			"RunScript"
+			{
+				"ScriptFile"		"scripts/vscripts/abilities/abilityMiko.lua"
+				"Target"			"TARGET"
+				"Function"			"OnMiko03SpellHit"
+			}
+		}
+
+		"Modifiers"
+		{
+			"passive_miko_03_damage"
+			{
+				"Passive"				"1"
+				"IsHidden"				"1"
+				"ThinkInterval"			"0.3"
+
+				"OnIntervalThink"
+				{
+					"RunScript"
+					{
+						"ScriptFile"	"scripts/vscripts/abilities/abilityMiko.lua"
+						"Function"		"OnMiko03SpellThink"
+					}
+				}
+			}
+		}
+	}
+
+	"thtd_miko_04"
+	{
+		"BaseClass"				"ability_datadriven"
+		"AbilityTextureName"	"touhoutd/thtd_miko_04"
+		"AbilityBehavior"		"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityUnitTargetType"	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitTargetTeam"	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"	"DAMAGE_TYPE_MAGICAL"
+		"AbilityCastPoint"		"0"
+		"AbilityCastAnimation"	"Act_DOTA_CAST_ABILITY_4"
+		"OverrideAnimation"		"Act_DOTA_CAST_ABILITY_4"
+		"AbilityCooldown"		"20"
+		"AbilityManaCost"		"0"
+		"AbilityChannelTime"	"8.0"
+
+		"precache"
+		{
+			"particle"			"particles/heroes/thtd_miko/ability_thtd_miko_04_starfall.vpcf"
+			"particle"			"particles/heroes/thtd_miko/ability_thtd_miko_04_start.vpcf"
+		}
+
+		"OnSpellStart"
+		{
+			"ApplyModifier"
+			{
+				"ModifierName"			"modifier_thdots_miko04_think_interval"
+				"Target"				"CASTER"
+			}
+		}
+		"OnChannelInterrupted"
+		{
+			"RemoveModifier"
+			{
+				"Target"				"CASTER"
+				"ModifierName"			"modifier_thdots_miko04_think_interval"
+			}
+		}
+
+		"Modifiers"
+		{
+			"modifier_thdots_miko04_think_interval"
+			{
+				"Duration"				"8.0"
+				"ThinkInterval"			"0.1"
+
+				"OnIntervalThink"
+				{
+					"RunScript"
+					{
+						"ScriptFile"	"scripts/vscripts/abilities/abilityMiko.lua"
+						"Function"		"OnMiko04SpellThink"
+					}
+				}
+			}
+			"modifier_miko_04_pose"
+			{
+				"OverrideAnimation"				"ACT_DOTA_CAST_ABILITY_4"
+				"EffectName"			"particles/heroes/thtd_miko/ability_thtd_miko_04_start.vpcf"
+				"EffectAttachType"		"follow_origin"
+			}
+		}
+	}
+
+	"thtd_yoshika_01"
+	{
+		"BaseClass"				"ability_datadriven"
+		"AbilityTextureName"	"touhoutd/thtd_yoshika_01"
+		"AbilityBehavior"		"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityUnitTargetType"	"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitTargetTeam"	"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"	"DAMAGE_TYPE_MAGICAL"
+		"AbilityCastAnimation"	"Act_DOTA_CAST_ABILITY_1"
+
+		// Stats
+		// ----------------------------------------------------------------
+		"MaxLevel"				"5"
+
+		"precache"
+		{
+			"particle"			"particles/heroes/thtd_yoshika/ability_yoshika_01.vpcf"
+			"particle"			"particles/heroes/thtd_yoshika/ability_yoshika_01_debuff.vpcf"
+		}
+
+		"Modifiers"
+		{
+			"passive_yoshika_01_attack_landed"
+			{
+				"Passive"				"1"
+				"IsHidden"				"1"
+
+				"OnAttackLanded"
+				{
+					"RunScript"
+					{
+						"Target"		"TARGET"
+						"ScriptFile"	"scripts/vscripts/abilities/abilityYoshika.lua"
+						"Function"		"OnYoshika01AttackLanded"
+					}
+				}
+			}
+			"modifier_yoshika_01_slow"
+			{
+				"Duration"				"5.0"
+				"IsDebuff"				"1"
+				"EffectName"			"particles/heroes/thtd_yoshika/ability_yoshika_01_debuff.vpcf"
+				"EffectAttachType"		"follow_origin"
+
+				"Properties"
+				{
+					"MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE"	"%move_slow"
+				}
+			}
+		}
+
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"		"FIELD_INTEGER"
+				"move_slow"		"-20 -25 -30 -40 -50"
+			}
+		}
+	}
+
+	"thtd_yoshika_02"
+	{
+		"BaseClass"						"ability_datadriven"
+		"AbilityTextureName"			"touhoutd/thtd_yoshika_02"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_MAGICAL"
+		"MaxLevel"						"1"
+		"AbilityCooldown"				"5"
+		"AbilityManaCost"				"0"
+		"AbilityCastAnimation"			"ACT_DOTA_CHANNEL_ABILITY_2"
+
+		"precache"
+		{
+			"particle"					"particles/heroes/thtd_yoshika/ability_yoshika_02.vpcf"
+		}
+
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile"			"scripts/vscripts/abilities/abilityYoshika.lua"
+				"Function"				"OnYoshika02SpellStart"
 			}
 		}
 	}

@@ -65,7 +65,7 @@ function Cirno02PassToNextUnit(keys,target,damagedGroup)
 					iVisionRadius = 400,                              -- Optional
 					iVisionTeamNumber = caster:GetTeamNumber()        -- Optional
 				}
-				projectile = ProjectileManager:CreateTrackingProjectile(info)
+				local projectile = ProjectileManager:CreateTrackingProjectile(info)
 				ParticleManager:DestroyLinearProjectileSystem(projectile,false)
 				if count > 0 then
 					count = count - 1

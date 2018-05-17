@@ -227,7 +227,7 @@ function RumiaProjectileStart(keys)
 		if caster:THTD_IsTowerEx() == true then
 			info.EffectName = "particles/heroes/rumia/ability_rumia_02_ex_projectile.vpcf"
 		end
-		projectile = ProjectileManager:CreateLinearProjectile(info)
+		local projectile = ProjectileManager:CreateLinearProjectile(info)
 		ParticleManager:DestroyLinearProjectileSystem(projectile,false)
 	end
 end

@@ -6,8 +6,8 @@ THTD_Custom_Hit_Block = {}
 function GetTempleOfGodBuffedTowerCount(targets)
     local count = 1
     for k,v in pairs(targets) do
-        if v:GetUnitName() == "soga" or v:GetUnitName() == "miko" or v:GetUnitName() == "futo" then
-            if v:HasModifier("modifier_miko_01_buff") then
+        if v:GetUnitName() == "soga" or v:GetUnitName() == "miko" or v:GetUnitName() == "futo" or v:GetUnitName() == "yoshika" then
+            if v:HasModifier("modifier_miko_02_buff") then
                 count = count + 1
             end
         end
@@ -18,7 +18,7 @@ end
 function GetTempleOfGodTowerCount(hero)
     local count = 0
     for k,v in pairs(hero.thtd_hero_tower_list) do
-        if v:GetUnitName() == "soga" or v:GetUnitName() == "miko" or v:GetUnitName() == "futo" then
+        if v:GetUnitName() == "soga" or v:GetUnitName() == "miko" or v:GetUnitName() == "futo" or v:GetUnitName() == "yoshika" then
             count = count + 1
         end
     end
@@ -26,7 +26,7 @@ function GetTempleOfGodTowerCount(hero)
 end
 
 function IsTempleOfGodTower(unit)
-    if unit:GetUnitName() == "soga" or unit:GetUnitName() == "futo" then
+    if unit:GetUnitName() == "soga" or unit:GetUnitName() == "futo" or unit:GetUnitName() == "yoshika" then
         return true
     end
     return false

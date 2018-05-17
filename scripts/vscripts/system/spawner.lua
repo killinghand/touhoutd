@@ -23,7 +23,7 @@ THTD_EntitiesRectOuter = {
 TotalWave = 0
 function SpawnSystem:InitSpawn()
 	SpawnSystem.Spawner = LoadKeyValues("scripts/npc/Spawner.txt")
-	for i=1,100 do
+	for i=1,200 do
 		SpawnSystem.Spawner["Attacking"]["Wave"..tostring(50+i)] = 
 		{
 			["Unit"] = "creature_unlimited",
@@ -152,6 +152,14 @@ function SpawnSystem:StopWave(index)
 	spawner[index].isStop = true
 end
 
+thtd_next_bossName_list = 
+{
+	[1] = nil,
+	[2] = nil,
+	[3] = nil,
+	[4] = nil,
+}
+
 function SpawnSystem:InitAttackSpawn()
 	-- 绑定刷怪点
 	for i=1,SpawnSystem.TeamNumber do
@@ -241,11 +249,19 @@ function SpawnSystem:StartSpawn(index) -- 进攻怪制取
 
 			for i = 1,count do
 				if spawner[index].isStop == true then return nil end
-				local unit= CreateUnitByName(WaveInfo["Unit"], SpawnSystem.AttackingSpawner[index]:GetOrigin() + RandomVector(400), true, nil, nil, DOTA_TEAM_BADGUYS )
+
+				local spawn_unit = WaveInfo["Unit"]
+				
+				if AcceptExtraMode == true and wave > 50 and wave%5==0 and thtd_next_bossName_list[index]~=nil then
+					spawn_unit = "creature_bosses_"..thtd_next_bossName_list[index]
+				end
+
+				local unit= CreateUnitByName(spawn_unit, SpawnSystem.AttackingSpawner[index]:GetOrigin() + RandomVector(400), true, nil, nil, DOTA_TEAM_BADGUYS )
 
 				unit.thtd_player_index = index - 1
+				unit.thtd_poison_buff = 0
 
-				unit:AddNewModifier(unit, nil, "modifier_phased", {duration=9999})
+				unit:AddNewModifier(unit, nil, "modifier_phased", {})
 				
 				if wave > 50 then
 					local currentWave = wave - 51
@@ -258,7 +274,11 @@ function SpawnSystem:StartSpawn(index) -- 进攻怪制取
 					elseif GameRules:GetCustomGameDifficulty() == 3 then
 						health = health + (currentWave - math.floor(currentWave/4)) * 28800
 					elseif GameRules:GetCustomGameDifficulty() == 4 then
-						health = health + (currentWave - math.floor(currentWave/4)) * 38400
+						if AcceptExtraMode == true then
+							health = health + (currentWave - math.floor(currentWave/4)) * 57600
+						else
+							health = health + (currentWave - math.floor(currentWave/4)) * 38400
+						end
 					end
 
 					unit:SetBaseMaxHealth(health)
@@ -291,6 +311,16 @@ function SpawnSystem:StartSpawn(index) -- 进攻怪制取
 					unit:SetBaseMaxHealth(health)
 					unit:SetMaxHealth(health)
 					unit:SetHealth(unit:GetMaxHealth())
+
+					if AcceptExtraMode == true then
+						local special = DoUniqueString("thtd_creep_buff")
+						local damageDecrease = -wave
+						ModifyDamageIncomingPercentage(unit,damageDecrease,special)
+					end
+				end
+
+				if AcceptExtraMode == true and wave > 50 and wave%5==0 and thtd_next_bossName_list[index]~=nil then
+					unit:AddNewModifier(unit, nil, "modifier_bosses_"..thtd_next_bossName_list[index], nil)
 				end
 
 				local id = index - 1

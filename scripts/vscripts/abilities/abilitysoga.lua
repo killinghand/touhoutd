@@ -2,6 +2,11 @@ function OnSoga01SpellStart(keys)
 	local caster = EntIndexToHScript(keys.caster_entindex)
 	local targetPoint = keys.target_points[1]
 
+	if caster:HasModifier("modifier_miko_02_buff") then
+		keys.ability:EndCooldown()
+		keys.ability:StartCooldown(3)
+	end
+
 	if caster.thtd_soga_01_effect_list == nil then
 		caster.thtd_soga_01_effect_list = {}
 	end
@@ -201,6 +206,11 @@ end
 function OnSoga03SpellStart(keys)
 	local caster = EntIndexToHScript(keys.caster_entindex)
 	local targetPoint = keys.target_points[1]
+	
+	if caster:HasModifier("modifier_miko_02_buff") then
+		keys.ability:EndCooldown()
+		keys.ability:StartCooldown(10)
+	end
 
 	if caster.thtd_soga_03_effect_list == nil then
 		caster.thtd_soga_03_effect_list = {}
@@ -279,6 +289,17 @@ function OnSoga03SpellStart(keys)
 				            damage_flags = DOTA_DAMAGE_FLAG_NONE
 					   	}
 					   	UnitDamageTarget(DamageTable)
+					   	if caster.thtd_soga_03_debuff == true and v:HasModifier("modifier_soga_03_debuff") == false then
+					   		keys.ability:ApplyDataDrivenModifier(caster, v, "modifier_soga_03_debuff", {Duration = 10.0})
+			   				ModifyMagicalDamageIncomingPercentage(v,20,nil)
+			   				v:SetContextThink(DoUniqueString("thtd_soga_03_buff_remove"), 
+								function()
+									if GameRules:IsGamePaused() then return 0.03 end
+									ModifyMagicalDamageIncomingPercentage(v,-20,nil)
+									return nil
+								end,
+							10.0)
+					   	end
 					end
 					for k,v in pairs(caster.thtd_soga_03_effect_list) do
 						ParticleManager:DestroyParticleSystem(v,true)
@@ -365,6 +386,17 @@ function OnSoga03SpellStart(keys)
 		            damage_flags = DOTA_DAMAGE_FLAG_NONE
 			   	}
 			   	UnitDamageTarget(DamageTable)
+			   	if caster.thtd_soga_03_debuff == true and v:HasModifier("modifier_soga_03_debuff") == false then
+			   		keys.ability:ApplyDataDrivenModifier(caster, v, "modifier_soga_03_debuff", {Duration = 10.0})
+			   		ModifyMagicalDamageIncomingPercentage(v,20,nil)
+	   				v:SetContextThink(DoUniqueString("thtd_soga_03_buff_remove"), 
+						function()
+							if GameRules:IsGamePaused() then return 0.03 end
+							ModifyMagicalDamageIncomingPercentage(v,-20,nil)
+							return nil
+						end,
+					10.0)
+			   	end
 			end
 
 			for i=1,18 do

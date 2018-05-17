@@ -30,7 +30,7 @@ function OnNazrin01AttackLanded(keys)
 					ability = keys.ability,
 			        victim = v, 
 			        attacker = caster, 
-			        damage = PlayerResource:GetGold(caster:GetPlayerOwnerID())*caster:THTD_GetStar()*0.12, 
+			        damage = PlayerResource:GetGold(caster:GetPlayerOwnerID())*caster:THTD_GetStar()*0.08, 
 			        damage_type = DAMAGE_TYPE_PHYSICAL, 
 			        damage_flags = DOTA_DAMAGE_FLAG_NONE
 			   	}

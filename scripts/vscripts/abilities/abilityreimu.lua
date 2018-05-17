@@ -81,7 +81,7 @@ function Reimu01Projectile(keys,count)
 			iVisionRadius = 1000,
 			iVisionTeamNumber = caster:GetTeamNumber()
 	}
-	projectile = ProjectileManager:CreateLinearProjectile(info)
+	local projectile = ProjectileManager:CreateLinearProjectile(info)
 	ParticleManager:DestroyLinearProjectileSystem(projectile,false)
 
 	for i=1,count do

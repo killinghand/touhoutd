@@ -39,8 +39,39 @@ function OnTouhouReleaseTowerSpellStart(keys)
 	end
 end
 
-THTD_MAX_FOOD = 12
 THTD_MAX_BONUS_TOWER = 3
+
+local thtd_skin_list = 
+{
+	["suwako"] = 
+	{
+		[1] = "models/thd_hero/suwako/cloth01/suwako_cloth01.vmdl",
+	},
+	["mokou"] = 
+	{
+		[1] = "models/thd_hero/mokou/cloth01/mokou_cloth01.vmdl",
+	},
+	["meirin"] = 
+	{
+		[1] = "models/thd_hero/meirin/cloth01/meirin_cloth01.vmdl",
+	},
+	["minoriko"] = 
+	{
+		[1] = "models/thd_hero/minoriko/cloth01/minoriko_cloth01.vmdl",
+	},
+	["sanae"] = 
+	{
+		[1] = "models/thd_hero/sanae/cloth01/sanae_jk.vmdl",
+	},
+	["mystia"] = 
+	{
+		[1] = "models/thd_hero/mystia/cloth01/mystia_cloth01.vmdl",
+	},
+	["reimu"] = 
+	{
+		[1] = "models/thd_hero/reimu/cloth01/reimu_cloth01.vmdl",
+	},
+}
 
 function PutTowerToPoint(keys)
 	local caster = keys.caster
@@ -50,7 +81,7 @@ function PutTowerToPoint(keys)
 
 	if caster:GetUnitName()~="npc_dota_hero_lina" and keys.ability.thtd_item_owner ~= nil and keys.ability.thtd_item_owner ~= caster then return end
 
-	if caster.food >= THTD_MAX_FOOD then 
+	if caster.food >= caster.thtd_game_info["food_count_max"] then 
 		CustomGameEventManager:Send_ServerToPlayer( caster:GetPlayerOwner() , "show_message", {msg="not_enough_food", duration=5, params={count=1}, color="#0ff"} )
 		return 
 	end
@@ -61,14 +92,24 @@ function PutTowerToPoint(keys)
 	end
 
 	if tower == nil then
+		local spawnTowerName = towerNameList[itemName]["kind"]
 		tower = CreateUnitByName(
-			towerNameList[itemName]["kind"], 
+			spawnTowerName, 
 			targetPoint, 
 			false, 
 			caster, 
 			caster, 
 			caster:GetTeam() 
 		)
+
+		if caster.thtd_has_skin == true and thtd_skin_list[spawnTowerName] ~= nil then
+			local skin_index = RandomInt(1, #thtd_skin_list[spawnTowerName])
+			local model_name = thtd_skin_list[spawnTowerName][skin_index]
+
+			tower:SetModel(model_name)
+			tower:SetOriginalModel(model_name)
+		end
+
 		tower:SetControllableByPlayer(caster:GetPlayerOwnerID(), true) 
 		tower:SetOwner(caster)
 		tower:SetHullRadius(50)
@@ -269,7 +310,7 @@ function OnKillUnitSpellStart(keys)
 			ability = keys.ability,
 	        victim = target, 
 	        attacker = caster, 
-	        damage = 1000, 
+	        damage = 3000, 
 	        damage_type = DAMAGE_TYPE_PURE, 
 	        damage_flags = DOTA_DAMAGE_FLAG_NONE
    	}
@@ -355,10 +396,14 @@ function DrawNormalCard(keys)
 	if chance <=20 then
 		if #drawList[2] > 0 then
 			item = CreateItem(drawList[2][RandomInt(1,#drawList[2])], nil, nil)
+		else
+			PlayerResource:ModifyGold(caster:GetPlayerOwnerID(), 1000 , true, DOTA_ModifyGold_SellItem) 
 		end
 	elseif chance > 20 then
 		if #drawList[1] > 0 then
 			item = CreateItem(drawList[1][RandomInt(1,#drawList[1])], nil, nil)
+		else
+			PlayerResource:ModifyGold(caster:GetPlayerOwnerID(), 250 , true, DOTA_ModifyGold_SellItem) 
 		end
 	end
 
@@ -408,14 +453,6 @@ function DrawNormalCard(keys)
 				ParticleManager:DestroyParticleSystemTime(effectIndex,6.0)
 				caster:EmitSound("Sound_THTD.thtd_draw_r")
 			end
-		end
-	else
-		local chance = RandomInt(0,100)
-		local item = nil
-		if chance <=20 then
-			PlayerResource:ModifyGold(caster:GetPlayerOwnerID(), 1000 , true, DOTA_ModifyGold_SellItem) 
-		elseif chance > 20 then
-			PlayerResource:ModifyGold(caster:GetPlayerOwnerID(), 250 , true, DOTA_ModifyGold_SellItem) 
 		end
 	end
 
@@ -474,14 +511,20 @@ function DrawSeniorCard(keys)
 	if chance <=5 then
 		if #drawList[4] > 0 then
 			item = CreateItem(drawList[4][RandomInt(1,#drawList[4])], nil, nil)
+		else
+			PlayerResource:ModifyGold(caster:GetPlayerOwnerID(), 5000 , true, DOTA_ModifyGold_SellItem) 
 		end
 	elseif chance <= 25 then
 		if #drawList[3] > 0 then
 			item = CreateItem(drawList[3][RandomInt(1,#drawList[3])], nil, nil)
+		else
+			PlayerResource:ModifyGold(caster:GetPlayerOwnerID(), 2500 , true, DOTA_ModifyGold_SellItem) 
 		end
 	elseif chance > 25 then
 		if #drawList[2] > 0 then
 			item = CreateItem(drawList[2][RandomInt(1,#drawList[2])], nil, nil)
+		else
+			PlayerResource:ModifyGold(caster:GetPlayerOwnerID(), 1000 , true, DOTA_ModifyGold_SellItem) 
 		end
 	end
 
@@ -534,16 +577,6 @@ function DrawSeniorCard(keys)
 				ParticleManager:DestroyParticleSystemTime(effectIndex,4.0)
 				caster:EmitSound("Sound_THTD.thtd_draw_ssr")
 			end
-		end
-	else
-		local chance = RandomInt(0,100)
-		local item = nil
-		if chance <=5 then
-			PlayerResource:ModifyGold(caster:GetPlayerOwnerID(), 5000 , true, DOTA_ModifyGold_SellItem) 
-		elseif chance <= 25 then
-			PlayerResource:ModifyGold(caster:GetPlayerOwnerID(), 2500 , true, DOTA_ModifyGold_SellItem) 
-		elseif chance > 25 then
-			PlayerResource:ModifyGold(caster:GetPlayerOwnerID(), 1000 , true, DOTA_ModifyGold_SellItem) 
 		end
 	end
 

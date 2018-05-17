@@ -267,7 +267,7 @@ function CDOTA_BaseNPC:THTD_flandre_thtd_ai()
 	if unit~=nil and unit:IsNull()==false and ability:GetLevel()>0 and ability:IsCooldownReady() then
 		THTDSystem:CastAbility(self,ability)
 	elseif unit2~=nil and unit2:IsNull()==false and ability2:GetLevel()>0 and ability2:IsCooldownReady() then
-		local damage = self:THTD_GetStar() * self:THTD_GetPower() * 16
+		local damage = self:THTD_GetStar() * self:THTD_GetPower() * 12
 
 		if self:FindAbilityByName("thtd_flandre_03"):GetLevel()>0 then
 			damage = damage * (2 - unit2:GetHealth()/unit2:GetMaxHealth())
@@ -611,6 +611,31 @@ function CDOTA_BaseNPC:THTD_futo_thtd_ai()
 
 	if unit~=nil and unit:IsNull()==false and ability:GetLevel()>0 and ability:IsCooldownReady() and THTDSystem:FindRadiusUnitCountInPoint(self,1000,unit:GetOrigin()) > 3  then
 		self:CastAbilityOnPosition(unit:GetOrigin(),ability,self:GetPlayerOwnerID())
+	elseif self:IsAttacking() == false then
+		self:MoveToPositionAggressive(self:GetOrigin() + Vector(0,-100,0))
+	end
+end
+
+function CDOTA_BaseNPC:THTD_miko_thtd_ai()
+	local ability1 = self:FindAbilityByName("thtd_miko_01")
+	local ability2 = self:FindAbilityByName("thtd_miko_04")
+	local unit = THTDSystem:FindRadiusOneUnit(self,1000)
+
+	if unit~=nil and unit:IsNull()==false and ability2:GetLevel()>0 and ability2:IsInAbilityPhase() == false and self:IsChanneling() == false and ability2:IsCooldownReady() and THTDSystem:FindRadiusUnitCountInPoint(self,1000,unit:GetOrigin()) > 5 then
+		THTDSystem:CastAbility(self,ability2)
+	elseif unit~=nil and unit:IsNull()==false and ability1:GetLevel()>0 and ability1:IsInAbilityPhase() == false and self:IsChanneling() == false and ability1:IsCooldownReady() then
+		THTDSystem:CastAbility(self,ability1)
+	elseif self:IsAttacking() == false and ability1:IsInAbilityPhase() == false and ability2:IsInAbilityPhase() == false and self:IsChanneling() == false then
+		self:MoveToPositionAggressive(self:GetOrigin() + Vector(0,-100,0))
+	end
+end
+
+function CDOTA_BaseNPC:THTD_yoshika_thtd_ai()
+	local ability = self:FindAbilityByName("thtd_yoshika_02")
+	local unit = THTDSystem:FindRadiusOneUnit(self,1000)
+
+	if unit~=nil and unit:IsNull()==false and ability:GetLevel()>0 and ability:IsCooldownReady() then
+		THTDSystem:CastAbility(self,ability)
 	elseif self:IsAttacking() == false then
 		self:MoveToPositionAggressive(self:GetOrigin() + Vector(0,-100,0))
 	end

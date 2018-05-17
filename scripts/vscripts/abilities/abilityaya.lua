@@ -134,6 +134,8 @@ function OnAyaAttack(keys,target)
 		OnAya01Attack(keys,caster,target)
 	end
 
+	OnAya01AttackLanded(keys)
+
 	if caster:HasModifier("modifier_item_2011_attack_stun") then
 		if RandomInt(0,100) < 10 then
 			if target.thtd_is_lock_item_2011_stun ~= true then

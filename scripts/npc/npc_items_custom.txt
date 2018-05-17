@@ -2400,4 +2400,34 @@
 			}
 		}
 	}
+
+	//-------------------------------------------------------------------------------------------------------------
+	// 宫古芳香
+	"item_0097"
+	{
+		//-------------------------------------------------------------------------------------------------------------
+		// General
+		"ID" 								"8097"
+		"BaseClass" 						"item_datadriven"
+		"AbilityTextureName" 				"item_0097"
+		"AbilityBehavior" 					"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityCastRange"					"100"
+		"ItemCost"							"2000"
+		"Model"								"models/thd_hero/yoshika/yoshika.vmdl"
+		"ItemPurchasable"				    "0"
+		"ItemShareability"					"ITEM_PARTIALLY_SHAREABLE"
+		
+		//-------------------------------------------------------------------------------------------------------------
+		// Item Info
+		
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile"	"scripts/vscripts/abilities/abilityCommon.lua"
+				"Function"		"PutTowerToPoint"
+				"Target"		"POINT"
+			}
+		}
+	}
 }

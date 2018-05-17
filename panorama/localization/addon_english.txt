@@ -17,8 +17,12 @@
 	"td_select_auto_random_mode"	"AUTO RANDOM CARDS-SELECTION MODE"
 	"td_select_auto_random_mode_desc"		"Cards in your deck will be allocated automatically by the system."
 	"td_select_free_mode"	"INDEPENDENT CARDS-SELECTION MODE"
-	"td_select_free_mode_desc"		"Cards in your deck will be allocated by yourself.<br>activate condition:complete easy mode"
+	"td_select_free_mode_desc"		"Cards in your deck will be allocated by yourself.<br>Activate condition:complete easy mode"
 	"td_auto_random_mode_tip"	"IN AUTO RANDOM CARDS-SELECTION MODE YOU CANNOT ALLOCATE CARDS FREELY, PLEASE CLICK 'Continue' BUTTON IN BOTTOM TO ENTER NEXT PAGE."
+	"td_select_extra_mode"	"VOTE EXTRA MODE"
+	"td_select_extra_mode_desc"		"Only in Difficulty 4."
+	"td_select_extra_mode2"	"EXTRA MODE"
+	"td_select_extra_mode_desc2"	"Activate condition: All the player in the team completed quest: <font color='#FF8F0D'>CLEARANCE DIFFICULTY 4</font>"
 	"td_yinyangyu_desc"		"YIN-YANG ORB<br>CAN BE GAINED BY DECOMPOSING CARDS, COMPLETING GAMES OR COMPLETING DAILY QUESTS. "
 	"td_decompose_card"		"DECOMPOSIION"
 	"td_decompose_card_question"	"CONFIRM TO DECOMPOSE<font color='#00CDC6'>{s:name}</font><br>AFTER DECOMPOSITION YOU WILL GAIN <font color='#FD4900'>{d:amount}YIN-YANG ORB</font>"
@@ -40,6 +44,14 @@
 	"td_select_card"	"Select Card"
 	"td_card_pool_note"	"NOTE"
 	"td_card_pool_note_desc"	"Note: Each SSR/SR/R card can only put 5 cards to the card group, and each N card can only put 10 cards to the card group."
+
+	"td_clear_all"		"CLEAR CARD GROUP"
+	"td_clear_all_question"		"DO YOU SURE CLEAR CARD GROUP?"
+
+	"td_upload_success"		"SAVE SUCCESS"
+	"td_upload_failed"		"SAVE FAILED"
+	"td_upload_ing"		"SAVING..."
+	"td_upload_reupload"	"YOU ARE SAVE FAILED! CLICK THE BUTTON TO SAVE"
 
 	"td_ready_title1"		"SELECT MODE"
 	"td_ready_title1_desc"		""

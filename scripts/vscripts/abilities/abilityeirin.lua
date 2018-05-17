@@ -41,7 +41,7 @@ function OnEirin01TrackingProjectileToTarget(caster,target,ability,source)
 				source=source
 			}
 		}
-		projectile = ProjectileManager:CreateTrackingProjectile(info)
+		local projectile = ProjectileManager:CreateTrackingProjectile(info)
 		ParticleManager:DestroyLinearProjectileSystem(projectile,false)
 	end
 end

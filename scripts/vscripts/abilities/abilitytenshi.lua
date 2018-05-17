@@ -122,7 +122,7 @@ function OnTenshi03AttackLanded(keys)
 			iVisionRadius = 1000,
 			iVisionTeamNumber = caster:GetTeamNumber()
 	}
-	projectile = ProjectileManager:CreateLinearProjectile(info)
+	local projectile = ProjectileManager:CreateLinearProjectile(info)
 	ParticleManager:DestroyLinearProjectileSystem(projectile,false)
 end
 

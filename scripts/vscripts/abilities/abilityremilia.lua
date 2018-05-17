@@ -97,7 +97,7 @@ function OnRemilia03SpellStart(keys)
 			iVisionRadius = 1000,
 			iVisionTeamNumber = caster:GetTeamNumber()
 	}
-	projectile = ProjectileManager:CreateLinearProjectile(info)
+	local projectile = ProjectileManager:CreateLinearProjectile(info)
 	ParticleManager:DestroyLinearProjectileSystem(projectile,false)
 
 	local effectIndex = ParticleManager:CreateParticle("particles/heroes/remilia/ability_remilia_03_spark.vpcf", PATTACH_CUSTOMORIGIN, caster)

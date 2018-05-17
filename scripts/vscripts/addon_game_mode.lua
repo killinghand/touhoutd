@@ -86,6 +86,13 @@ function Precache( context )
 
 	PrecacheResource( "soundfile", "soundevents/custom_game/ui.vsndevts", context )
 	PrecacheResource( "soundfile", "soundevents/custom_game/store.vsndevts", context )
+
+	-- bosses
+	PrecacheResource( "particle", "particles/heroes/minoriko/ability_minoriko_04.vpcf",context )
+	PrecacheResource( "particle", "particles/bosses/thtd_keine/ability_bosses_keine.vpcf",context )
+	PrecacheResource( "particle", "particles/thd2/heroes/rumia/ability_rumia01_effect.vpcf",context )
+	PrecacheResource( "particle", "particles/heroes/marisa/marisa_01_rocket_a.vpcf",context )
+
 end
 -- Create the game mode when we activate
 function Activate()
@@ -176,10 +183,23 @@ function CTHTDGameMode:InitGameMode()
 	LinkLuaModifier("modifier_item_2026_damage", "modifiers/modifier_item_2026_damage", LUA_MODIFIER_MOTION_NONE)
 
 	LinkLuaModifier("modifier_touhoutd_root", "modifiers/modifier_touhoutd_root", LUA_MODIFIER_MOTION_NONE)
+	LinkLuaModifier("modifier_touhoutd_pause", "modifiers/modifier_touhoutd_pause", LUA_MODIFIER_MOTION_NONE)
 	LinkLuaModifier("modifier_touhoutd_release_hidden", "modifiers/modifier_touhoutd_release_hidden", LUA_MODIFIER_MOTION_NONE)
 	LinkLuaModifier("modifier_touhoutd_building", "modifiers/modifier_touhoutd_building", LUA_MODIFIER_MOTION_NONE)
 	LinkLuaModifier("modifier_thtd_ss_faith", "modifiers/modifier_thtd_ss_faith", LUA_MODIFIER_MOTION_NONE)
 	LinkLuaModifier("modifier_thtd_ss_kill", "modifiers/modifier_thtd_ss_kill", LUA_MODIFIER_MOTION_NONE)
+
+	LinkLuaModifier("modifier_bosses_alice", "modifiers/bosses/modifier_bosses_alice", LUA_MODIFIER_MOTION_NONE)
+	LinkLuaModifier("modifier_bosses_aya", "modifiers/bosses/modifier_bosses_aya", LUA_MODIFIER_MOTION_NONE)
+	LinkLuaModifier("modifier_bosses_hina", "modifiers/bosses/modifier_bosses_hina", LUA_MODIFIER_MOTION_NONE)
+	LinkLuaModifier("modifier_bosses_kaguya", "modifiers/bosses/modifier_bosses_kaguya", LUA_MODIFIER_MOTION_NONE)
+	LinkLuaModifier("modifier_bosses_keine", "modifiers/bosses/modifier_bosses_keine", LUA_MODIFIER_MOTION_NONE)
+	LinkLuaModifier("modifier_bosses_kisume", "modifiers/bosses/modifier_bosses_kisume", LUA_MODIFIER_MOTION_NONE)
+	LinkLuaModifier("modifier_bosses_marisa", "modifiers/bosses/modifier_bosses_marisa", LUA_MODIFIER_MOTION_NONE)
+	LinkLuaModifier("modifier_bosses_minoriko", "modifiers/bosses/modifier_bosses_minoriko", LUA_MODIFIER_MOTION_NONE)
+	LinkLuaModifier("modifier_bosses_mokou", "modifiers/bosses/modifier_bosses_mokou", LUA_MODIFIER_MOTION_NONE)
+	LinkLuaModifier("modifier_bosses_rumia", "modifiers/bosses/modifier_bosses_rumia", LUA_MODIFIER_MOTION_NONE)
+	LinkLuaModifier("modifier_bosses_yuugi", "modifiers/bosses/modifier_bosses_yuugi", LUA_MODIFIER_MOTION_NONE)
 
 	-- 将便利店技能所需金币保存到Nettable
 	local abilities = {
@@ -339,6 +359,9 @@ function CTHTDGameMode:OnGameRulesStateChange(keys)
 			end
 		end
 
+		if AcceptExtraMode == true then
+			difficulty = 3
+		end
 		GameRules:SetCustomGameDifficulty(difficulty+1)
 		for i=0, PlayerResource:GetPlayerCount() do
 			local player = PlayerResource:GetPlayer(i)
@@ -523,11 +546,17 @@ function CTHTDGameMode:OnHeroSpawned(keys)
 		hero.food = 0
 		hero.press_key = {}
 		hero.thtd_emoji_effect = nil
+		hero.thtd_has_skin = false
 
 		hero.thtd_game_info = {}
 		hero.thtd_game_info["creep_count_max"] = 0
 		hero.thtd_game_info["creep_count"] = 0
 		hero.thtd_game_info["food_count"] = 0
+		if AcceptExtraMode == true then
+			hero.thtd_game_info["food_count_max"] = 12
+		else
+			hero.thtd_game_info["food_count_max"] = 12
+		end
 		hero.thtd_game_info["creature_kill_count"] = 0
 		
 		CTHTDGameMode:THTD_CreateCreepEffect(0,hero)
@@ -627,11 +656,20 @@ function CTHTDGameMode:OnHeroSpawned(keys)
 					QuestSystem:Update( heroPlayerID, {Type="finished_game",Difficulty=GameRules:GetCustomGameDifficulty()} ) 
 
 				elseif SpawnSystem:GetWave() >= 52 then
-					if SpawnSystem:GetWave() > (80+(GameRules:GetCustomGameDifficulty()-1)*10) then 
-					 	--ServerEvent( "set_can_select_free_mode", heroPlayerID, {} )
-					 	--GiveTouhouGamePoints(heroPlayerID, math.floor(50+hero.thtd_game_info["creature_kill_count"]/5*(1+(GameRules:GetCustomGameDifficulty()-1)*0.5)))
-					 	GameRules:SetGameWinner(DOTA_TEAM_GOODGUYS)
-					 	return nil
+
+					if AcceptExtraMode == true then
+						if SpawnSystem:GetWave() > 250 then 
+						 	--ServerEvent( "set_can_select_free_mode", heroPlayerID, {} )
+						 	GameRules:SetGameWinner(DOTA_TEAM_GOODGUYS)
+						 	return nil
+						end
+					else
+						if SpawnSystem:GetWave() > (80+(GameRules:GetCustomGameDifficulty()-1)*10) then 
+						 	--ServerEvent( "set_can_select_free_mode", heroPlayerID, {} )
+						 	--GiveTouhouGamePoints(heroPlayerID, math.floor(50+hero.thtd_game_info["creature_kill_count"]/5*(1+(GameRules:GetCustomGameDifficulty()-1)*0.5)))
+						 	GameRules:SetGameWinner(DOTA_TEAM_GOODGUYS)
+						 	return nil
+						end
 					end
 
 					if hero:IsStunned() == false then
@@ -642,11 +680,21 @@ function CTHTDGameMode:OnHeroSpawned(keys)
 							if findNum ~= nil and v~=nil and v:IsNull()==false and v:IsAlive() and v.thtd_player_index == heroPlayerID then
 								count = count + 1
 							end
+							local findNum2 =  string.find(v:GetUnitName(), 'creature_alice')
+							if findNum2 ~= nil and v~=nil and v:IsNull()==false and v:IsAlive() and v.thtd_player_index == heroPlayerID and v.thtd_is_outer then
+								count = count + 1
+							end
+							local findNum3 =  string.find(v:GetUnitName(), 'creature_bosses')
+							if findNum3 ~= nil and v~=nil and v:IsNull()==false and v:IsAlive() and v.thtd_player_index == heroPlayerID then
+								count = count + 1
+							end
 						end
 						if count > 30 then
 							for k,v in pairs(entities) do
-								local findNum =  string.find(v:GetUnitName(), 'creature_unlimited')
-								if findNum ~= nil and v~=nil and v:IsNull()==false and v:IsAlive() and v.thtd_player_index == heroPlayerID then
+								local findNum = string.find(v:GetUnitName(), 'creature_unlimited')
+								local findNum2 = string.find(v:GetUnitName(), 'creature_alice')
+								local findNum3 =  string.find(v:GetUnitName(), 'creature_bosses')
+								if (findNum ~= nil or findNum2 ~= nil or findNum3 ~= nil) and v~=nil and v:IsNull()==false and v:IsAlive() and v.thtd_player_index == heroPlayerID then
 									v:ForceKill(false)
 								elseif v~=nil and v:IsNull()==false and v:IsAlive() and v:GetOwner() == hero then
 									v:SetOrigin(Vector(0,0,0))
@@ -730,10 +778,10 @@ function CTHTDGameMode:OnHeroSpawned(keys)
 		hero:AddItem(item)
 		hero.choose_item_3 = item
 
-		--[[if HasTouhouVIP(heroPlayerID) then
+		--if HasTouhouVIP(heroPlayerID) then
 			item = CreateItem("item_1010", hero, hero)
 			hero:AddItem(item)
-		end]]
+		--end
 
 		local origin = shopFoodOrigin[hero:GetPlayerOwnerID()+1]
 		self:THTD_InitFoodMsgEffect(hero)
@@ -927,7 +975,7 @@ function CTHTDGameMode:OnModifierFilter(keys)
 		local modifierName = keys.name_const
 
 		if THTD_IsUniqueSlowBuff(modifierName) == true then
-			if unit:THTD_HasUniqueSlowBuff() then
+			if unit:THTD_HasUniqueSlowBuff() or unit:HasModifier("modifier_bosses_aya") then
 				return false
 			else
 				return true
@@ -976,6 +1024,10 @@ function CTHTDGameMode:OnDamageFilter(keys)
 		return false
 	end
 
+	if target.thtd_damage_lock == true then
+		return false
+	end
+
 	local damage_table = {
 			ability = keys.ability,
 			victim = target,
@@ -987,20 +1039,67 @@ function CTHTDGameMode:OnDamageFilter(keys)
 	keys.damage = ReturnAfterTaxDamage(damage_table)
 	damage_table = {}
 
-	if unit:THTD_IsTower() then
-		local damage = math.min(keys.damage,target:GetHealth())
-		unit.thtd_tower_damage = unit.thtd_tower_damage + damage
-	elseif unit.thtd_spawn_unit_owner ~= nil and unit.thtd_spawn_unit_owner:IsNull()==false and unit.thtd_spawn_unit_owner:IsAlive() then
-		local tower = unit.thtd_spawn_unit_owner
-		if tower:THTD_IsTower() then
+	if target:HasModifier("modifier_bosses_kaguya") then
+	    if keys.damage > target:GetHealth() then
+	    	target:SetHealth(1)
+	    	target:RemoveModifierByName("modifier_bosses_kaguya")
+			return false
+		end
+	end
+
+	if keys.damage > 0 then
+		if unit:THTD_IsTower() then
 			local damage = math.min(keys.damage,target:GetHealth())
-			tower.thtd_tower_damage = tower.thtd_tower_damage + damage
+			unit.thtd_tower_damage = unit.thtd_tower_damage + damage
+		elseif unit.thtd_spawn_unit_owner ~= nil and unit.thtd_spawn_unit_owner:IsNull()==false and unit.thtd_spawn_unit_owner:IsAlive() then
+			local tower = unit.thtd_spawn_unit_owner
+			if tower:THTD_IsTower() then
+				local damage = math.min(keys.damage,target:GetHealth())
+				tower.thtd_tower_damage = tower.thtd_tower_damage + damage
+			end
 		end
 	end
 	return true
 end
 
+local thtd_bosses_list = 
+{
+	"alice",
+	"aya",
+	"hina",
+	"kaguya",
+	"keine",
+	"kisume",
+	"marisa",
+	"minoriko",
+	"mokou",
+	"rumia",
+	"yuugi",
+}
+
 function CDOTA_BaseNPC:RemoveAllTowerDamage()
+	if AcceptExtraMode == true then
+		if SpawnSystem:GetWave() > 51 and (SpawnSystem:GetWave())%5 == 0 then
+			self.thtd_minoriko_02_change = 2
+			PlayerResource:ModifyGold(self:GetPlayerOwnerID(),5000,true,DOTA_ModifyGold_CreepKill)
+			for k,v in pairs(self.thtd_hero_tower_list) do
+				if v~=nil and v:IsNull()==false and v:IsAlive() then
+					if v:THTD_IsTower() and v:THTD_GetLevel()<THTD_MAX_LEVEL then
+						v:THTD_SetLevel(THTD_MAX_LEVEL)
+					end
+				end
+			end
+			CustomGameEventManager:Send_ServerToPlayer(self:GetPlayerOwner(),"show_message", {msg="extra_bonus_nazrin", duration=60, params={count=1}, color="#0ff"} )
+			CustomGameEventManager:Send_ServerToPlayer(self:GetPlayerOwner(),"show_message", {msg="extra_bonus_minoriko_limit", duration=60, params={count=1}, color="#0ff"} )
+			CustomGameEventManager:Send_ServerToPlayer(self:GetPlayerOwner(),"show_message", {msg="extra_bonus_lily", duration=60, params={count=1}, color="#0ff"} )
+
+			local bossIndex = RandomInt(1,#thtd_bosses_list)
+			self.thtd_next_bossName = thtd_bosses_list[bossIndex]
+			CustomGameEventManager:Send_ServerToPlayer(self:GetPlayerOwner(),"show_message", {msg="extra_bosses_"..self.thtd_next_bossName, duration=60, params={count=1}, color="#0ff"} )
+			thtd_next_bossName_list[self:GetPlayerOwnerID()+1] = self.thtd_next_bossName
+		end
+	end
+
 	for k,v in pairs(self.thtd_hero_tower_list) do
 		if v~=nil and v:IsNull()==false and v:IsAlive() then
 			if SpawnSystem:GetWave() <= 51 then

@@ -379,5 +379,5 @@ function GetYuuka03Increase(caster)
 	if caster.thtd_yuuka_03_kill_count == nil then
 		caster.thtd_yuuka_03_kill_count = 0
 	end
-	return (1+caster.thtd_yuuka_03_kill_count/200)
+	return (1+caster.thtd_yuuka_03_kill_count/150)
 end

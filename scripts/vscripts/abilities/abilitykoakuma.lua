@@ -38,7 +38,7 @@ function thtd_koakuma_01:Koakuma01PassToNextUnit(target,target_1,target_2,data)
 			count=data.count + 1
 		}
 	}
-	projectile = ProjectileManager:CreateTrackingProjectile(info)
+	local projectile = ProjectileManager:CreateTrackingProjectile(info)
 end
 
 --------------------------------------------------------------------------------

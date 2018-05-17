@@ -191,7 +191,7 @@ function OnFlandre04Destroy(keys)
 
 	local caster = EntIndexToHScript(keys.caster_entindex)
 	local vecTarget = target:GetOrigin()
-	local damage = caster:THTD_GetStar() * caster:THTD_GetPower() * Flandre01GetIllusionCount(keys) * 4
+	local damage = caster:THTD_GetStar() * caster:THTD_GetPower() * Flandre01GetIllusionCount(keys) * 3
 
 	if caster:FindAbilityByName("thtd_flandre_03"):GetLevel()>0 then
 		damage = damage * (2 - target:GetHealth()/target:GetMaxHealth())

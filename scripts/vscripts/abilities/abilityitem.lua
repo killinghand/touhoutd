@@ -11,7 +11,7 @@ function OnItem2001_SpellStart(keys)
 						ability = keys.ability,
 				        victim = v, 
 				        attacker = caster, 
-				        damage = 1000, 
+				        damage = 3000, 
 				        damage_type = DAMAGE_TYPE_PURE, 
 				        damage_flags = DOTA_DAMAGE_FLAG_NONE
 			   	}

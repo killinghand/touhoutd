@@ -250,7 +250,7 @@ function OnMarisa02AttackLanded(keys)
 						iVisionRadius = 400,                              -- Optional
 						iVisionTeamNumber = caster:GetTeamNumber()        -- Optional
 					}
-					projectile = ProjectileManager:CreateTrackingProjectile(info)
+					local projectile = ProjectileManager:CreateTrackingProjectile(info)
 					ParticleManager:DestroyLinearProjectileSystem(projectile,false)
 					caster:EmitSound("Hero_Marisa.PreAttack")
 					

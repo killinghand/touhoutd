@@ -24,7 +24,7 @@ function OnYuyuko01SpellStart(keys)
 			iVisionRadius = 400,                              -- Optional
 			iVisionTeamNumber = caster:GetTeamNumber()        -- Optional
 		}
-		projectile = ProjectileManager:CreateTrackingProjectile(info)
+		local projectile = ProjectileManager:CreateTrackingProjectile(info)
 		ParticleManager:DestroyLinearProjectileSystem(projectile,false)
 	end
 end
@@ -117,7 +117,7 @@ function OnYuyuko04SpellThink(keys)
 	   		1.0)
 	   	end
 
-		if v:IsAlive() and v:GetHealth() <= (v:GetMaxHealth()*0.3) then
+		if v:IsAlive() and v:GetHealth() <= (v:GetMaxHealth()*0.3) and v.thtd_damage_lock ~= true then
 			effectIndex = ParticleManager:CreateParticle("particles/thd2/heroes/yuyuko/ability_yuyuko_04_effect_a.vpcf", PATTACH_CUSTOMORIGIN, caster)
 			ParticleManager:SetParticleControl(effectIndex, 0, v:GetOrigin())
 			ParticleManager:SetParticleControl(effectIndex, 5, v:GetOrigin())

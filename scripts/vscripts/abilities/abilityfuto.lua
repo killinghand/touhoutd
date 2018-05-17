@@ -57,10 +57,14 @@ function OnFuto01AttackLanded(keys)
 
 		for k,v in pairs(targets) do
 			local count = 10
+			v.thtd_poison_buff = v.thtd_poison_buff + 1
 			v:SetContextThink(DoUniqueString("thtd_futo_01_damage_think"), 
 				function()
 					if GameRules:IsGamePaused() then return 0.03 end
-					if count <= 0 then return nil end
+					if count <= 0 then 
+						v.thtd_poison_buff = v.thtd_poison_buff - 1
+						return nil 
+					end
 					count = count - 1
 					local targets = THTD_FindUnitsInRadius(caster,v:GetOrigin(),300)
 					local damage = caster:THTD_GetPower() * caster:THTD_GetStar() * 0.5 * ( 1 + GetFuto02Buff(caster)*0.1)
@@ -125,12 +129,16 @@ end
 function OnFuto02Kill(keys)
 	local caster = EntIndexToHScript(keys.caster_entindex)
 
+	if caster.thtd_futo_02_buff_max_count == nil then
+		caster.thtd_futo_02_buff_max_count = 10
+	end
+
 	local modifier = caster:FindModifierByName("modifier_futo_02_buff")
 	if modifier==nil then
 		modifier = keys.ability:ApplyDataDrivenModifier(caster, caster, "modifier_futo_02_buff", {Duration = 10.0})
 		modifier:SetStackCount(1)
 	else
-		if modifier:GetStackCount() < 10 then
+		if modifier:GetStackCount() < caster.thtd_futo_02_buff_max_count then
 			modifier:SetStackCount(modifier:GetStackCount()+1)
 		end
 		modifier:SetDuration(10.0,false)
@@ -161,7 +169,10 @@ function OnFuto03SpellStart(keys)
 			count = count - 1
 			local targets = THTD_FindUnitsInRadius(caster,targetPoint,500)
 			for k,v in pairs(targets) do
-				local damage = caster:THTD_GetPower() * caster:THTD_GetStar() * 0.5 * ( 1 + GetFuto02Buff(caster)*0.1)
+				local damage = caster:THTD_GetPower() * caster:THTD_GetStar() * 0.25 * ( 1 + GetFuto02Buff(caster)*0.1)
+				if caster:HasModifier("modifier_miko_02_buff") then
+					damage = damage * 1.25
+				end
 				local DamageTable = {
 			   			ability = keys.ability,
 			            victim = v, 
