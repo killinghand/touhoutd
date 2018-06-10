@@ -1,7 +1,7 @@
 "addon"
 {
 	"td_pawn_count"		"漏怪数量：{d:count} / {d:max_count}"
-	"td_food_count"			"{d:count} / 12"
+	"td_food_count"			"{d:count} / {d:max_count}"
 	"td_food_count_text"	"人口上限"
 	"td_creature_kill_count"		"怪物击杀数：{d:count}"
 	"td_creature_kill_count_text"	"击杀数"
@@ -38,6 +38,7 @@
 	"td_card_group_a"	"卡组 A"
 	"td_card_group_b"	"卡组 B"
 	"td_card_group_c"	"卡组 C"
+	"td_ranking_list"		"排行榜"
 
 	"td_remove_card"	"移除卡牌"
 	"td_show_card_info"	"显示信息"
@@ -217,6 +218,9 @@
 	"avalon_store_error_Error"					"未知错误"
 	"avalon_store_error_Timeout"				"超时，未接收到服务器响应"
 	"avalon_store_error_Invalid_Format"			"无效格式"
+
+	"local_store_save_success"			"本地存档备份成功"
+	"local_store_save_failed"			"本地存档备份失败"
 	
 	"card_store_name"		"召唤符"
 	"card_store_extract_normal"		"消耗<font color='#FFB207'>1张</font> <font color='#079CFE'>普通召唤符</font>"

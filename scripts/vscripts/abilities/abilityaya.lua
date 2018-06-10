@@ -136,6 +136,16 @@ function OnAyaAttack(keys,target)
 
 	OnAya01AttackLanded(keys)
 
+	if caster:HasModifier("modifier_eirin_02_spell_buff") then
+		local eirin = THTD_GetFirstTowerByName(caster,"eirin") 
+		if eirin ~= nil then
+			local eirin01 = eirin:FindAbilityByName("thtd_eirin_01")
+			if eirin01~=nil and eirin01:GetLevel()>1 then
+				OnAyaLinkToEirin01(caster,target,eirin01,eirin)
+			end
+		end
+	end
+
 	if caster:HasModifier("modifier_item_2011_attack_stun") then
 		if RandomInt(0,100) < 10 then
 			if target.thtd_is_lock_item_2011_stun ~= true then
@@ -150,5 +160,43 @@ function OnAyaAttack(keys,target)
 				2.0)
 	   		end
 		end
+	end
+end
+
+function OnAyaLinkToEirin01(caster,target,ability,source)
+	if caster:GetMana() > 10 then
+		caster:SetMana(caster:GetMana() - 10)
+		if RandomInt(0,100) < caster:THTD_GetStar() * 10 then
+			if caster:GetMana() < caster:GetMaxMana() * 0.6 then
+				caster:SetMana(caster:GetMana() + caster:GetMaxMana() * 0.4)
+			else
+				caster:SetMana(caster:GetMaxMana())
+			end
+		end
+
+		caster:StartGesture(ACT_DOTA_CAST_ABILITY_1)
+		local info = 
+		{
+			Target = target,
+			Source = caster,
+			Ability = ability,	
+			EffectName = "particles/heroes/thtd_eirin/ability_eirin_01.vpcf",
+	        iMoveSpeed = 1400,
+			vSourceLoc= caster:GetAbsOrigin(),                -- Optional (HOW)
+			bDrawsOnMinimap = false,                          -- Optional
+		    bDodgeable = true,                                -- Optional
+		  	bIsAttack = false,                                -- Optional
+		    bVisibleToEnemies = true,                         -- Optional
+		    bReplaceExisting = false,                         -- Optional
+		    flExpireTime = GameRules:GetGameTime() + 10,      -- Optional but recommended
+			bProvidesVision = true,                           -- Optional
+			iVisionRadius = 400,                              -- Optional
+			iVisionTeamNumber = caster:GetTeamNumber(),        -- Optional
+			ExtraData = { 
+				source=source
+			}
+		}
+		local projectile = ProjectileManager:CreateTrackingProjectile(info)
+		ParticleManager:DestroyLinearProjectileSystem(projectile,false)
 	end
 end

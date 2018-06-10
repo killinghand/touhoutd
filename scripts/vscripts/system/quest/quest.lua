@@ -40,57 +40,57 @@ function public:constructor( iPlayerID, szQuestName, hInitData )
 	end
 end
 
--- 
+--
 function public:GetPlayerID()
 	return self.iPlayerID
 end
 
--- 
+--
 function public:GetQuestName()
 	return self.szQuestName
 end
 
--- 
+--
 function public:GetSorts()
 	return self.hQuestData["Sorts"]
 end
 
--- 
+--
 function public:IsRepeat()
 	return self.hQuestData["Repeat"] == true
 end
 
--- 
+--
 function public:IsAutoComplete()
 	return self.hQuestData["AutoComplete"] == true
 end
 
--- 
+--
 function public:GetState()
 	return self.nState
 end
 
--- 
+--
 function public:SetState( num )
 	self.nState = num
 end
 
--- 
+--
 function public:IsState( num )
 	return self.nState == num
 end
 
--- 
+--
 function public:AddSubquest( hSubquest )
 	tinsert(self.hSubquestList, hSubquest)
 end
 
--- 
+--
 function public:GetSubquest( nIndex )
 	return self.hSubquestList[nIndex]
 end
 
--- 
+--
 function public:RemoveSubquest( target )
 	if type(target) == "number" then
 		self.hSubquestList[target] = nil
@@ -109,7 +109,7 @@ function public:Complete()
 		self:SetState(QUEST_STATE_COMPLETED)
 		self:GiveCompletedRewards()
 		--ServerEvent( "completed_quest", self.iPlayerID, {quest=self:GetQuestName()} )
-		CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer( self.iPlayerID ), 
+		CustomGameEventManager:Send_ServerToPlayer( PlayerResource:GetPlayer( self.iPlayerID ),
 			"quest_system_completed_msg",
 			{quest = self:GetQuestName()})
 	end
@@ -129,13 +129,13 @@ function public:GiveCompletedRewards()
 	end
 end
 
--- 
+--
 function public:Update( hEvent )
 	for i,v in ipairs(self.hSubquestList) do
 		v:Update(hEvent)
 	end
 
-	-- 
+	--
 	local isFinished = #self.hSubquestList > 0
 	for i,v in ipairs(self.hSubquestList) do
 		if not v:IsState(SUBQUEST_STATE_FINISHED) then
@@ -152,7 +152,7 @@ function public:Update( hEvent )
 	end
 end
 
--- 
+--
 function public:GetQuestData()
 	local data = {}
 	local subquests = {}

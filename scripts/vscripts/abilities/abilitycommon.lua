@@ -206,6 +206,14 @@ THTD_STAR_ITEM =
 	[4] = "item_1006",
 }
 
+THTD_SEIGA_STAR_ITEM = 
+{
+	[1] = "item_1011",
+	[2] = "item_1012",
+	[3] = "item_1013",
+	[4] = "item_1014",
+}
+
 function StarUp(keys)
 	local caster = keys.caster
 	local player = caster:GetPlayerOwner()
@@ -230,7 +238,7 @@ function StarUp(keys)
 					table.insert(composeItem,item)
 				end
 			end
-			if item:GetAbilityName() == THTD_STAR_ITEM[star] then
+			if item:GetAbilityName() == THTD_STAR_ITEM[star] or item:GetAbilityName() == THTD_SEIGA_STAR_ITEM[star] then
 				table.insert(composeItem,item)
 			end
 		end
@@ -245,7 +253,7 @@ function StarUp(keys)
 					table.insert(composeItem,item)
 				end
 			end
-			if item:GetAbilityName() == THTD_STAR_ITEM[star] then
+			if item:GetAbilityName() == THTD_STAR_ITEM[star] or item:GetAbilityName() == THTD_SEIGA_STAR_ITEM[star] then
 				table.insert(composeItem,item)
 			end
 		end
@@ -310,7 +318,7 @@ function OnKillUnitSpellStart(keys)
 			ability = keys.ability,
 	        victim = target, 
 	        attacker = caster, 
-	        damage = 3000, 
+	        damage = 10000, 
 	        damage_type = DAMAGE_TYPE_PURE, 
 	        damage_flags = DOTA_DAMAGE_FLAG_NONE
    	}
@@ -803,7 +811,7 @@ end
 function GetBonusTowerCount(hero)
 	local count = 0
 	for k,v in pairs(hero.thtd_hero_tower_list) do
-		if v:GetUnitName() == "minoriko" or v:GetUnitName() == "nazrin" or v:GetUnitName() == "lily" or v:GetUnitName() == "daiyousei" or v:GetUnitName() == "sizuha" or v:GetUnitName() == "toramaru" or v:GetUnitName() == "shinki" then
+		if v:GetUnitName() == "minoriko" or v:GetUnitName() == "nazrin" or v:GetUnitName() == "lily" or v:GetUnitName() == "daiyousei" or v:GetUnitName() == "sizuha" or v:GetUnitName() == "toramaru" or v:GetUnitName() == "shinki" or v:GetUnitName() == "seiga" then
 			count = count + 1
 		end
 	end
@@ -812,7 +820,7 @@ function GetBonusTowerCount(hero)
 
  function IsBonusTower(itemName)
  	local towerName =  towerNameList[itemName]["kind"]
-	if towerName == "minoriko" or towerName == "nazrin" or towerName == "lily" or towerName == "daiyousei" or towerName == "sizuha" or towerName == "toramaru" or towerName == "shinki" then
+	if towerName == "minoriko" or towerName == "nazrin" or towerName == "lily" or towerName == "daiyousei" or towerName == "sizuha" or towerName == "toramaru" or towerName == "shinki" or towerName == "seiga" then
 		return true
 	end
 	return false

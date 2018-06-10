@@ -120,7 +120,7 @@ function OnRemilia03SpellHit(keys)
 	end
 
 	if chance <= caster.thtd_remilia_03_chance and caster:FindAbilityByName("thtd_remilia_04"):GetLevel()>0 then
-		local dealdamage = caster:THTD_GetPower() * caster:THTD_GetStar() * 16.0
+		local dealdamage = caster:THTD_GetPower() * caster:THTD_GetStar() * 48.0
 		local damage_table = {
 				ability = keys.ability,
 				victim = target,

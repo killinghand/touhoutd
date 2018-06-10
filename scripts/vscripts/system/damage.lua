@@ -15,7 +15,7 @@ local thtd_momiji_damage_bonus =
 function UnitDamageTarget(damage_table)
     local DamageTable = clone(damage_table)
     damage_table = {}
-    
+
 	if DamageTable.damage_type == DAMAGE_TYPE_MAGICAL then
 		DamageTable.damage_flags = DOTA_DAMAGE_FLAG_IGNORES_MAGIC_ARMOR
 	end
@@ -52,13 +52,13 @@ function UnitDamageTarget(damage_table)
 				DamageTable.damage = DamageTable.damage * ( 1 + (thtd_daiyousei_damage_bonus[daiyousei:THTD_GetStar()] or 0) )
 			end
 		end
-		DamageTable.damage_type = DAMAGE_TYPE_MAGICAL 
+		DamageTable.damage_type = DAMAGE_TYPE_MAGICAL
         DamageTable.damage_flags = DOTA_DAMAGE_FLAG_IGNORES_MAGIC_ARMOR
     elseif DamageTable.attacker:FindModifierByName("modifier_momiji_02") ~= nil then
         local modifier = DamageTable.attacker:FindModifierByName("modifier_momiji_02")
         local momiji = modifier:GetCaster()
         if momiji ~= nil then
-            DamageTable.damage_type = DAMAGE_TYPE_PHYSICAL 
+            DamageTable.damage_type = DAMAGE_TYPE_PHYSICAL
             if DamageTable.attacker:GetUnitName() == "aya" then
                 if DamageTable.victim.thtd_is_outer ~= true then
                     DamageTable.damage = DamageTable.damage * ( 1 + (thtd_momiji_damage_bonus[momiji:THTD_GetStar()] or 0) * 1.5)
@@ -148,7 +148,7 @@ function ReturnAfterTaxDamage(DamageTable)
         if unit.equip_bonus_table ~= nil then
             DamageTable.damage = DamageTable.damage * (1 + unit.equip_bonus_table["physical_damage_percentage"]/100)
         end
-        
+
         if armor >= 0 then
             DamageTable.damage = DamageTable.damage / ((1 - (armor * 0.05) /(1 + armor * 0.05)))
             if unit.equip_bonus_table ~= nil then
@@ -176,7 +176,11 @@ function ReturnAfterTaxDamage(DamageTable)
 
     if DamageTable.damage_type == DAMAGE_TYPE_MAGICAL then
         local magicArmor = target:GetMagicalArmorValue() * 100
-        
+
+		if unit:HasModifier("modifier_patchouli_03_buff") then
+			DamageTable.damage = DamageTable.damage * 1.30
+		end
+
         if unit.thtd_magical_damage_outgoing ~= nil and unit.thtd_magical_damage_outgoing ~= 0 then
             DamageTable.damage = DamageTable.damage * (1 + unit.thtd_magical_damage_outgoing/100)
         end
@@ -228,7 +232,7 @@ function UnitStunTarget( caster,target,stuntime)
 end
 
 
-local thtd_physical_penetration_buff_table = 
+local thtd_physical_penetration_buff_table =
 {
     "modifier_mystia_01_buff",
     "modifier_kaguya_03_4_buff",
@@ -250,7 +254,7 @@ function RefreshPhysicalPenetration(keys)
     end
 end
 
-local thtd_magical_penetration_buff_table = 
+local thtd_magical_penetration_buff_table =
 {
     "modifier_koakuma_02_buff",
     "modifier_byakuren_04_magic_buff",
@@ -273,7 +277,7 @@ function RefreshMagicalPenetration(keys)
 end
 
 
-local thtd_outgoing_damage_buff_table = 
+local thtd_outgoing_damage_buff_table =
 {
     "modifier_kaguya_03_3_buff",
     "modifier_merlin_01_buff",
@@ -293,7 +297,7 @@ function RefreshDamageOutgoingPercentage(keys)
             end
         end
     end
-    
+
     if target:HasModifier("modifier_item_2014_damage_aura_effect") then
         target.thtd_damage_outgoing = target.thtd_damage_outgoing + 10
     end

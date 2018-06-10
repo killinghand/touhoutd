@@ -11,7 +11,7 @@ function OnItem2001_SpellStart(keys)
 						ability = keys.ability,
 				        victim = v, 
 				        attacker = caster, 
-				        damage = 3000, 
+				        damage = 10000, 
 				        damage_type = DAMAGE_TYPE_PURE, 
 				        damage_flags = DOTA_DAMAGE_FLAG_NONE
 			   	}
@@ -88,7 +88,16 @@ function OnItem2021_SpellStart(keys)
 	local target = keys.target
 
 	if caster:GetUnitName() == "npc_dota_hero_lina" then
-		target:Kill(keys.ability,caster)
+		target:SetHealth(1)
+		local DamageTable = {
+				ability = keys.ability,
+		        victim = target, 
+		        attacker = caster, 
+		        damage = 10000, 
+		        damage_type = DAMAGE_TYPE_PURE, 
+		        damage_flags = DOTA_DAMAGE_FLAG_NONE
+	   	}
+	   	ApplyDamage(DamageTable)
 		PlayerResource:ModifyGold(caster:GetPlayerOwnerID(), 500 , true, DOTA_ModifyGold_CreepKill)
 		SendOverheadEventMessage(caster:GetPlayerOwner(), OVERHEAD_ALERT_GOLD, target, 500, caster:GetPlayerOwner() )
 		

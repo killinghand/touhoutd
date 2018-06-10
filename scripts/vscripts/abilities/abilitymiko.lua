@@ -174,7 +174,7 @@ function OnMiko04SpellThink(keys)
 				keys.ability:ApplyDataDrivenModifier(believer, believer, "modifier_miko_04_pose", {Duration=8.0})
 			end
 			for k,v in pairs(inners) do
-				if RandomInt(0,8) == 1 then
+				if RandomInt(0,10) == 1 then
 			   		local effectIndex = ParticleManager:CreateParticle("particles/heroes/thtd_miko/ability_thtd_miko_04_starfall.vpcf",PATTACH_CUSTOMORIGIN,caster)
 					ParticleManager:SetParticleControl(effectIndex, 0, v:GetOrigin())
 					ParticleManager:SetParticleControl(effectIndex, 2, RandomVector(255))

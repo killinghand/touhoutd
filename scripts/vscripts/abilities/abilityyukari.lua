@@ -388,6 +388,7 @@ function OnYukari04SpellStart(keys)
 	local timecount = 100
 	train:SetContextThink(DoUniqueString("AttackingBase"), 
 		function ()
+			if GameRules:IsGamePaused() then return 0.03 end
 			if timecount > 0 then
 				local damage = caster:THTD_GetPower() * caster:THTD_GetStar() * 3
 				local targets = THTD_FindUnitsInRadius(caster,train:GetOrigin(),200)
@@ -454,6 +455,7 @@ function OnYukari04SpellStart(keys)
 			local nexttimecount = 100
 			nexttrain:SetContextThink(DoUniqueString("AttackingBase"), 
 				function ()
+					if GameRules:IsGamePaused() then return 0.03 end
 					if nexttimecount > 0 and nexttrain~=nil and nexttrain:IsNull()==false and nexttrain:IsAlive() then
 						local damage = caster:THTD_GetPower() * caster:THTD_GetStar() * 3
 						local targets = THTD_FindUnitsInRadius(caster,nexttrain:GetOrigin(),200)

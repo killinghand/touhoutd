@@ -1,8 +1,8 @@
-local thtd_combo_voice_table = 
+local thtd_combo_voice_table =
 {
-	["lyrica"] = 
+	["lyrica"] =
 	{
-		["lyrica_lunasa_merlin"] = 
+		["lyrica_lunasa_merlin"] =
 		{
 			["comboName"] = "lyrica_lunasa_merlin",
 			["delay"] = 3,
@@ -11,9 +11,9 @@ local thtd_combo_voice_table =
 		}
 	},
 
-	["lunasa"] = 
+	["lunasa"] =
 	{
-		["lyrica_lunasa_merlin"] = 
+		["lyrica_lunasa_merlin"] =
 		{
 			["comboName"] = "lyrica_lunasa_merlin",
 			["delay"] = 3,
@@ -22,9 +22,9 @@ local thtd_combo_voice_table =
 		}
 	},
 
-	["merlin"] = 
-	{	
-		["lyrica_lunasa_merlin"] = 
+	["merlin"] =
+	{
+		["lyrica_lunasa_merlin"] =
 		{
 			["comboName"] = "lyrica_lunasa_merlin",
 			["delay"] = 3,
@@ -33,9 +33,9 @@ local thtd_combo_voice_table =
 		}
 	},
 
-	["youmu"] = 
-	{	
-		["yuyuko_youmu"] = 
+	["youmu"] =
+	{
+		["yuyuko_youmu"] =
 		{
 			["comboName"] = "yuyuko_youmu",
 			["delay"] = 9,
@@ -44,9 +44,9 @@ local thtd_combo_voice_table =
 		}
 	},
 
-	["yuyuko"] = 
-	{	
-		["yuyuko_youmu"] = 
+	["yuyuko"] =
+	{
+		["yuyuko_youmu"] =
 		{
 			["comboName"] = "yuyuko_youmu",
 			["delay"] = 13,
@@ -55,9 +55,9 @@ local thtd_combo_voice_table =
 		}
 	},
 
-	["marisa"] = 
-	{	
-		["reimu_marisa"] = 
+	["marisa"] =
+	{
+		["reimu_marisa"] =
 		{
 			["comboName"] = "reimu_marisa",
 			["delay"] = 3,
@@ -66,9 +66,9 @@ local thtd_combo_voice_table =
 		}
 	},
 
-	["koishi"] = 
-	{	
-		["koishi_satori"] = 
+	["koishi"] =
+	{
+		["koishi_satori"] =
 		{
 			["comboName"] = "koishi_satori",
 			["delay"] = 5,
@@ -77,9 +77,9 @@ local thtd_combo_voice_table =
 		}
 	},
 
-	["sakuya"] = 
-	{	
-		["remilia_sakuya"] = 
+	["sakuya"] =
+	{
+		["remilia_sakuya"] =
 		{
 			["comboName"] = "remilia_sakuya",
 			["delay"] = 3,
@@ -88,9 +88,9 @@ local thtd_combo_voice_table =
 		}
 	},
 
-	["koakuma"] = 
-	{	
-		["koakuma_patchouli"] = 
+	["koakuma"] =
+	{
+		["koakuma_patchouli"] =
 		{
 			["comboName"] = "koakuma_patchouli",
 			["delay"] = 7,
@@ -99,9 +99,9 @@ local thtd_combo_voice_table =
 		}
 	},
 
-	["patchouli"] = 
-	{	
-		["koakuma_patchouli"] = 
+	["patchouli"] =
+	{
+		["koakuma_patchouli"] =
 		{
 			["comboName"] = "koakuma_patchouli",
 			["delay"] = 5,
@@ -110,9 +110,9 @@ local thtd_combo_voice_table =
 		}
 	},
 
-	["eirin"] = 
-	{	
-		["eirin_kaguya"] = 
+	["eirin"] =
+	{
+		["eirin_kaguya"] =
 		{
 			["comboName"] = "eirin_kaguya",
 			["delay"] = 2,
@@ -121,9 +121,9 @@ local thtd_combo_voice_table =
 		}
 	},
 
-	["kaguya"] = 
-	{	
-		["eirin_kaguya"] = 
+	["kaguya"] =
+	{
+		["eirin_kaguya"] =
 		{
 			["comboName"] = "eirin_kaguya",
 			["delay"] = 2,
@@ -752,6 +752,22 @@ function CDOTA_BaseNPC:THTD_soga_thtd_combo(combo)
 	return comboVoiceTable
 end
 
+function CDOTA_BaseNPC:THTD_yoshika_thtd_combo(combo)
+	local comboVoiceTable = {}
+
+	if HasCombo(combo,"yoshika_seiga") then
+		if self:HasModifier("modifier_yoshika_01_attack_speed_buff") == false then
+			local ability = self:FindAbilityByName("thtd_yoshika_01")
+			ability:ApplyDataDrivenModifier(self, self, "modifier_yoshika_01_attack_speed_buff", nil)
+		end
+	else
+		if self:HasModifier("modifier_yoshika_01_attack_speed_buff") then
+			self:RemoveModifierByName("modifier_yoshika_01_attack_speed_buff")
+		end
+	end
+	combo = {}
+	return comboVoiceTable
+end
 
 function HasCombo(combo,name)
 	for k,v in pairs(combo) do

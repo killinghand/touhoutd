@@ -112,7 +112,7 @@ function OnRin01Death(keys)
 	   	}
 	   	local olddamage = ReturnAfterTaxDamage(DamageTable)
 		if olddamage > (caster:THTD_GetStar()*caster:THTD_GetPower()*5) then
-			DamageTable.damage = caster:THTD_GetStar()*caster:THTD_GetPower()*5
+			DamageTable.damage = caster:THTD_GetStar()*caster:THTD_GetPower()*15
 		end
 		UnitDamageTarget(DamageTable)
 	end

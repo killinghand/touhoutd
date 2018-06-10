@@ -53,7 +53,7 @@ function OnTenshi02SpellStart(keys)
 	local caster = EntIndexToHScript(keys.caster_entindex)
 	local target = keys.target
 	local crit = Tenshi02GetChance(caster)
-	local damage = keys.attack_damage * crit
+	local damage = caster:GetAttackDamage() * crit
 
 	if keys.ability:GetLevel() < 1 then return end
 

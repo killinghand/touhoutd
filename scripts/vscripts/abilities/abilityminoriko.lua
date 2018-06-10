@@ -6,7 +6,7 @@ function OnMinoriko02StarChange(keys)
 		return
 	end
 
-	if target:THTD_IsTower() and target:GetUnitName()~=caster:GetUnitName() then
+	if target:THTD_IsTower() and target:GetOwner() == caster:GetOwner() and target:GetUnitName()~=caster:GetUnitName() then
 		local hero = caster:GetOwner()
 
 		if hero.thtd_minoriko_02_change == nil then

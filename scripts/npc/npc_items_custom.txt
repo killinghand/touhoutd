@@ -219,6 +219,70 @@
 	}
 
 	//-------------------------------------------------------------------------------------------------------------
+	// 一星僵尸
+	"item_1011"
+	{
+		//-------------------------------------------------------------------------------------------------------------
+		// General
+		"ID" 								"9011"
+		"BaseClass" 						"item_datadriven"
+		"AbilityTextureName" 				"item_0097"
+		"AbilityBehavior" 					"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityCooldown"					"1"
+		"ItemCost"							"1000"
+		"ItemSellable"						"1"
+		"ItemShareability"					"ITEM_PARTIALLY_SHAREABLE"
+	}
+
+	//-------------------------------------------------------------------------------------------------------------
+	// 二星僵尸
+	"item_1012"
+	{
+		//-------------------------------------------------------------------------------------------------------------
+		// General
+		"ID" 								"9012"
+		"BaseClass" 						"item_datadriven"
+		"AbilityTextureName" 				"item_0097"
+		"AbilityBehavior" 					"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityCooldown"					"1"
+		"ItemCost"							"1800"
+		"ItemSellable"						"1"
+		"ItemShareability"					"ITEM_PARTIALLY_SHAREABLE"
+	}
+
+	//-------------------------------------------------------------------------------------------------------------
+	// 三星僵尸
+	"item_1013"
+	{
+		//-------------------------------------------------------------------------------------------------------------
+		// General
+		"ID" 								"9013"
+		"BaseClass" 						"item_datadriven"
+		"AbilityTextureName" 				"item_0097"
+		"AbilityBehavior" 					"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityCooldown"					"1"
+		"ItemCost"							"7200"
+		"ItemSellable"						"1"
+		"ItemShareability"					"ITEM_PARTIALLY_SHAREABLE"
+	}
+
+	//-------------------------------------------------------------------------------------------------------------
+	// 四星僵尸
+	"item_1014"
+	{
+		//-------------------------------------------------------------------------------------------------------------
+		// General
+		"ID" 								"9014"
+		"BaseClass" 						"item_datadriven"
+		"AbilityTextureName" 				"item_0097"
+		"AbilityBehavior" 					"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityCooldown"					"1"
+		"ItemCost"							"35000"
+		"ItemSellable"						"1"
+		"ItemShareability"					"ITEM_PARTIALLY_SHAREABLE"
+	}
+
+	//-------------------------------------------------------------------------------------------------------------
 	// 四次元爆弹
 	"item_2001"
 	{
@@ -2252,6 +2316,36 @@
 	}
 
 	//-------------------------------------------------------------------------------------------------------------
+	// 上白泽慧音
+	"item_0061"
+	{
+		//-------------------------------------------------------------------------------------------------------------
+		// General
+		"ID" 								"8061"
+		"BaseClass" 						"item_datadriven"
+		"AbilityTextureName" 				"item_0061"
+		"AbilityBehavior" 					"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityCastRange"					"100"
+		"ItemCost"							"5000"
+		"Model"								"models/thd_hero/keine/keine.vmdl"
+		"ItemPurchasable"				    "0"
+		"ItemShareability"					"ITEM_PARTIALLY_SHAREABLE"
+		
+		//-------------------------------------------------------------------------------------------------------------
+		// Item Info
+		
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile"	"scripts/vscripts/abilities/abilityCommon.lua"
+				"Function"		"PutTowerToPoint"
+				"Target"		"POINT"
+			}
+		}
+	}
+
+	//-------------------------------------------------------------------------------------------------------------
 	// 寅丸星
 	"item_0069"
 	{
@@ -2384,6 +2478,36 @@
 		"AbilityCastRange"					"100"
 		"ItemCost"							"5000"
 		"Model"								"models/thd_hero/futo/item/item_futo.vmdl"
+		"ItemPurchasable"				    "0"
+		"ItemShareability"					"ITEM_PARTIALLY_SHAREABLE"
+		
+		//-------------------------------------------------------------------------------------------------------------
+		// Item Info
+		
+		"OnSpellStart"
+		{
+			"RunScript"
+			{
+				"ScriptFile"	"scripts/vscripts/abilities/abilityCommon.lua"
+				"Function"		"PutTowerToPoint"
+				"Target"		"POINT"
+			}
+		}
+	}
+
+	//-------------------------------------------------------------------------------------------------------------
+	// 霍青娥
+	"item_0096"
+	{
+		//-------------------------------------------------------------------------------------------------------------
+		// General
+		"ID" 								"8096"
+		"BaseClass" 						"item_datadriven"
+		"AbilityTextureName" 				"item_0096"
+		"AbilityBehavior" 					"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityCastRange"					"100"
+		"ItemCost"							"5000"
+		"Model"								"models/thd_hero/seiga/item/item_seiga.vmdl"
 		"ItemPurchasable"				    "0"
 		"ItemShareability"					"ITEM_PARTIALLY_SHAREABLE"
 		

@@ -216,8 +216,11 @@
 	"avalon_store_error_Not_Enough"				"INSUFFICIENT AVALON COINS/YIN-YANG ORBS"
 	"avalon_store_error_Invalid_SQL"			"SERVER ERROR"
 	"avalon_store_error_Error"					"UNKNOWN ERROR"
-	"avalon_store_error_Timeout"				"超时，未接收到服务器响应"
+	"avalon_store_error_Timeout"				"Timeout!"
 	"avalon_store_error_Invalid_Format"			"Invalid Format"
+
+	"local_store_save_success"			"LOCAL STORE SAVE SUCCESS"
+	"local_store_save_failed"			"LOCAL STORE SAVE FAILED"
 	
 	"card_store_name"		"SUMMONER"
 	"card_store_extract_normal"		"USE <font color='#FFB207'> 1</font> <font color='#079CFE'>NORMAL SUMMON SPELL</font>"

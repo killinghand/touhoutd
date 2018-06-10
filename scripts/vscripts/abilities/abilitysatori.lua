@@ -1,7 +1,7 @@
 local thtd_satori_02 = 
 {
-	[4] = 0.2,
-	[5] = 0.5,
+	[4] = 0.4,
+	[5] = 1.0,
 }
 
 function OnSatori01SpellStart(keys)
@@ -15,7 +15,7 @@ function OnSatori01SpellStart(keys)
 	for k,v in pairs(targets) do
 		local modifier = v:FindModifierByName("modifier_satori_01_debuff")
 		if modifier == nil then
-			keys.ability:ApplyDataDrivenModifier(caster, v, "modifier_satori_01_debuff", nil)
+			keys.ability:ApplyDataDrivenModifier(caster, v, "modifier_satori_01_debuff", {Duration=3.0})
 			local ability_02 = caster:FindAbilityByName("thtd_satori_02") 
 
 			if ability_02~=nil and ability_02:GetLevel() > 0 then

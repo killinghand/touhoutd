@@ -55,6 +55,8 @@ function public:OnDestroy(kv)
 			unit:SetBaseMagicalResistanceValue(caster:GetBaseMagicalResistanceValue())
 
 			unit.thtd_player_index = caster.thtd_player_index
+			unit.thtd_poison_buff = 0
+			
 			unit:AddNewModifier(unit, nil, "modifier_phased", {duration=9999})
 					
 			table.insert(THTD_EntitiesRectInner[caster.thtd_player_index],unit)

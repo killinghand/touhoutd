@@ -384,8 +384,8 @@ function CDOTA_BaseNPC:THTD_yukari_thtd_ai()
 		THTDSystem:CastAbilityToUnit( self,ability1,unit)
 	elseif unit~=nil and unit:IsNull()==false and ability2:GetLevel()>0 and ability2:IsCooldownReady() and #self.thtd_yukari_01_hidden_table > 0 then
 		THTDSystem:CastAbility(self,ability2)
-	elseif unit~=nil and unit:IsNull()==false and ability4:GetLevel()>0 and ability4:IsCooldownReady() and THTDSystem:FindRadiusUnitCount(self,1000) > 5 then
-		THTDSystem:CastAbility(self,ability4)
+	--elseif unit~=nil and unit:IsNull()==false and ability4:GetLevel()>0 and ability4:IsCooldownReady() and THTDSystem:FindRadiusUnitCount(self,1000) > 5 then
+		--THTDSystem:CastAbility(self,ability4)
 	elseif self:IsAttacking() == false then
 		self:MoveToPositionAggressive(self:GetOrigin() + Vector(0,-100,0))
 	end
@@ -641,6 +641,18 @@ function CDOTA_BaseNPC:THTD_yoshika_thtd_ai()
 	end
 end
 
+function CDOTA_BaseNPC:THTD_seiga_thtd_ai()
+	local ability2 = self:FindAbilityByName("thtd_seiga_02")
+	local unit = THTDSystem:FindRadiusOneUnit(self,1000)
+	local target = THTDSystem:FindFriendlyRadiusOneUnitLast(self,ability2:GetCastRange())
+
+	if unit~=nil and unit:IsNull()==false and target~=nil and target:IsNull()==false and ability2:GetLevel()>0 and target:THTD_IsTower() and ability2:IsCooldownReady() then
+		self:CastAbilityOnTarget(target,ability2,self:GetPlayerOwnerID())
+	elseif self:IsAttacking() == false then
+		self:MoveToPositionAggressive(self:GetOrigin() + Vector(0,-100,0))
+	end
+end
+
 function THTDSystem:CastAbility( unit,ability)
 	if ability:IsUnitTarget() then
 		local teams = DOTA_UNIT_TARGET_TEAM_ENEMY
@@ -734,7 +746,7 @@ end
 function THTDSystem:FindFriendlyRadiusOneUnitLast( entity, range)
 	local friends = THTD_FindFriendlyUnitsInRadius(entity,entity:GetOrigin(),range)
 	if #friends > 0 then
-		if entity.thtd_last_cast_unit ~= nil and entity.thtd_last_cast_unit:IsNull() == false and entity.thtd_last_cast_unit:IsAlive() then
+		if entity.thtd_last_cast_unit ~= nil and entity.thtd_last_cast_unit:IsNull() == false and entity.thtd_last_cast_unit:IsAlive() and GetDistanceBetweenTwoVec2D(entity:GetOrigin(),entity.thtd_last_cast_unit:GetOrigin()) <= range then
 			return entity.thtd_last_cast_unit
 		end
 		local index = RandomInt( 1, #friends )

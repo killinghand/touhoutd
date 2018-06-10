@@ -85,7 +85,7 @@ function OnByakuren01AttackLanded(keys)
 	local caster = EntIndexToHScript(keys.caster_entindex)
 	local target = keys.target
 
-	
+
 	if caster.thtd_byakuren_01_attack_time == nil then
 		caster.thtd_byakuren_01_attack_time = 1.0
 	end
@@ -104,7 +104,7 @@ function OnByakuren01AttackLanded(keys)
 			attacker = caster,
 			damage = caster:THTD_GetPower()*caster:THTD_GetStar()*caster.thtd_byakuren_01_extra_damage*(1+GetStarLotusBuffedTowerCount(friends)*0.1),
 			ability = keys.ability,
-			damage_type = keys.ability:GetAbilityDamageType(), 
+			damage_type = keys.ability:GetAbilityDamageType(),
 			damage_flags = DOTA_DAMAGE_FLAG_NONE,
 		}
 		if caster.thtd_byakuren_01_attack_time == 1.0 then
@@ -140,11 +140,11 @@ function OnByakuren03SpellThink(keys)
 					keys.ability:ApplyDataDrivenModifier(caster,v,"modifier_byakuren_03_buff", nil)
 				end
 			end
-		end 
+		end
 	end
 end
 
-local thtd_byakuren_04_point = 
+local thtd_byakuren_04_point =
 {
 	[1] = Vector(-340,-145,32),
 	[2] = Vector(340,-145,32),
@@ -186,7 +186,7 @@ function OnByakuren04AttackLanded(keys)
 				attacker = caster,
 				damage = caster:THTD_GetPower()*caster:THTD_GetStar()*caster.thtd_byakuren_01_extra_damage*(6+GetStarLotusBuffedTowerCount(friends)),
 				ability = keys.ability,
-				damage_type = DAMAGE_TYPE_MAGICAL, 
+				damage_type = DAMAGE_TYPE_MAGICAL,
 				damage_flags = DOTA_DAMAGE_FLAG_NONE,
 			}
 			UnitDamageTarget(damage_table)
@@ -214,7 +214,7 @@ function OnByakuren04AttackLanded(keys)
 					attacker = caster,
 					damage = caster:THTD_GetPower()*caster:THTD_GetStar()*caster.thtd_byakuren_01_extra_damage*6,
 					ability = keys.ability,
-					damage_type = DAMAGE_TYPE_PURE, 
+					damage_type = DAMAGE_TYPE_PURE,
 					damage_flags = DOTA_DAMAGE_FLAG_NONE,
 				}
 				UnitDamageTarget(damage_table)
@@ -237,7 +237,7 @@ function OnByakuren04AttackLanded(keys)
 					caster:THTD_AddAttack(bonus)
 					caster.thtd_byakuren_04_bonus_lock = true
 
-					caster:SetContextThink(DoUniqueString("thtd_byakuren_04_bonus_remove"), 
+					caster:SetContextThink(DoUniqueString("thtd_byakuren_04_bonus_remove"),
 						function()
 							if GameRules:IsGamePaused() then return 0.03 end
 							caster:THTD_AddPower(-bonus)

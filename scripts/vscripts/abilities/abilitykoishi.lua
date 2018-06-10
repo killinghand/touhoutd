@@ -2,7 +2,7 @@ function OnKoishi01Attack(keys)
 	local caster = EntIndexToHScript(keys.caster_entindex)
 	local target = keys.target
 
-	if caster.__koishi_lock ~= true then 
+	if caster.__koishi_lock ~= true then
 		caster.__koishi_lock = true
 		local targets = THTD_FindUnitsInRadius(caster,caster:GetOrigin(),800)
 
@@ -13,10 +13,10 @@ function OnKoishi01Attack(keys)
 				if RandomInt(0,100)<=30 then
 					local DamageTable = {
 				   			ability = keys.ability,
-				            victim = unit, 
-				            attacker = caster, 
-				            damage = caster:THTD_GetStar() * caster:THTD_GetPower(), 
-				            damage_type = keys.ability:GetAbilityDamageType(), 
+				            victim = unit,
+				            attacker = caster,
+				            damage = caster:THTD_GetStar() * caster:THTD_GetPower(),
+				            damage_type = keys.ability:GetAbilityDamageType(),
 				            damage_flags = DOTA_DAMAGE_FLAG_NONE
 				   	}
 				   	UnitDamageTarget(DamageTable)
@@ -52,7 +52,7 @@ function OnKoishi02AttackLanded(keys)
 	end
 end
 
-local thtd_koishi_03_bonus = 
+local thtd_koishi_03_bonus =
 {
 	[3] = 200,
 	[4] = 400,
@@ -80,7 +80,7 @@ function OnKoishi03SpellStart(keys)
 		target.thtd_koishi_03_bonus = true
 		target:EmitSound("Hero_OgreMagi.Bloodlust.Target")
 
-		caster:SetContextThink(DoUniqueString("thtd_koishi03_buff_remove"), 
+		caster:SetContextThink(DoUniqueString("thtd_koishi03_buff_remove"),
 			function()
 				if GameRules:IsGamePaused() then return 0.03 end
 				target:THTD_AddPower(-bonus)
@@ -96,7 +96,7 @@ function OnKoishi04AttackStart(keys)
 	local target = keys.target
 
 	local count = 3
-	caster:SetContextThink(DoUniqueString("thtd_koishi03_buff_remove"), 
+	caster:SetContextThink(DoUniqueString("thtd_koishi03_buff_remove"),
 		function()
 			if GameRules:IsGamePaused() then return 0.03 end
 			local num = RandomInt(1,6)
@@ -108,10 +108,10 @@ function OnKoishi04AttackStart(keys)
 
 			local DamageTable = {
 		   			ability = keys.ability,
-		            victim = target, 
-		            attacker = caster, 
-		            damage = caster:THTD_GetStar() * caster:THTD_GetPower() / 5, 
-		            damage_type = keys.ability:GetAbilityDamageType(), 
+		            victim = target,
+		            attacker = caster,
+		            damage = caster:THTD_GetStar() * caster:THTD_GetPower() / 5,
+		            damage_type = keys.ability:GetAbilityDamageType(),
 		            damage_flags = DOTA_DAMAGE_FLAG_NONE
 		   	}
 		   	UnitDamageTarget(DamageTable)
@@ -164,14 +164,14 @@ function OnKoishi04SpellStart(keys)
 	ParticleManager:SetParticleControl(effectIndex, 0, caster:GetOrigin())
 	ParticleManager:DestroyParticleSystemTimeFalse(effectIndex,0.8)
 
-	caster:SetContextThink(DoUniqueString("thtd_koishi04_buff_remove"), 
+	caster:SetContextThink(DoUniqueString("thtd_koishi04_buff_remove"),
 		function()
 			if GameRules:IsGamePaused() then return 0.03 end
 			caster:SetModel("models/thd_hero/koishi/eva/koishi_eva.vmdl")
 			caster:SetOriginalModel("models/thd_hero/koishi/eva/koishi_eva.vmdl")
 			caster:RemoveGesture(ACT_DOTA_CAST_ABILITY_4)
 
-			caster:SetContextThink(DoUniqueString("thtd_koishi04_buff_remove"), 
+			caster:SetContextThink(DoUniqueString("thtd_koishi04_buff_remove"),
 				function()
 					if GameRules:IsGamePaused() then return 0.03 end
 					caster:StartGesture(ACT_DOTA_CAST_ABILITY_4_END)
@@ -181,7 +181,7 @@ function OnKoishi04SpellStart(keys)
 					caster:EmitSound("Voice_Thdots_Koishi.AbilityKoishi042")
 					caster:EmitSound("Hero_VengefulSpirit.WaveOfTerror")
 
-					caster:SetContextThink(DoUniqueString("thtd_koishi04_buff_remove"), 
+					caster:SetContextThink(DoUniqueString("thtd_koishi04_buff_remove"),
 						function()
 							if GameRules:IsGamePaused() then return 0.03 end
 							caster:RemoveGesture(ACT_DOTA_CAST_ABILITY_4_END)

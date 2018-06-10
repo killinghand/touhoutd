@@ -4,7 +4,7 @@ function OnSoga01SpellStart(keys)
 
 	if caster:HasModifier("modifier_miko_02_buff") then
 		keys.ability:EndCooldown()
-		keys.ability:StartCooldown(3)
+		keys.ability:StartCooldown(4)
 	end
 
 	if caster.thtd_soga_01_effect_list == nil then

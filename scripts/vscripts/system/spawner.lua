@@ -24,7 +24,7 @@ TotalWave = 0
 function SpawnSystem:InitSpawn()
 	SpawnSystem.Spawner = LoadKeyValues("scripts/npc/Spawner.txt")
 	for i=1,200 do
-		SpawnSystem.Spawner["Attacking"]["Wave"..tostring(50+i)] = 
+		SpawnSystem.Spawner["Attacking"]["Wave"..tostring(50+i)] =
 		{
 			["Unit"] = "creature_unlimited",
 			["Times"] =	30,
@@ -41,7 +41,7 @@ function SpawnSystem:InitSpawn()
 		end
 	end
 	SpawnSystem.TeamNumber = PlayerNum
-	
+
 
 	print("InitSpawn")
 	TotalWave = table.nums(SpawnSystem.Spawner["Attacking"])
@@ -86,22 +86,22 @@ end
 -- 	return entities
 -- end
 
-local RestTime = 0                                                                                                                           
+local RestTime = 0
 function UpdateSpawnerInfo()
 	if RestTime <= 0 then RestTime = SpawnSystem.AST end
 	if GameRules:IsGamePaused() then return 1 end
 	local ent1 = Entities:FindByName(nil, "spanwer_player1")
 	RestTime = RestTime -1
 	local _wave = ent1.CurWave
-	
+
 	return 1
 end
 SpawnAttackingSpawn = {
 	function()
 		print("Line:1")
 		local spawner = SpawnSystem.AttackingSpawner
-		local ent1 = Entities:FindByName(nil, "spanwer_player1")  
-		ent1.CurWave = 1
+		local ent1 = Entities:FindByName(nil, "spanwer_player1")
+		ent1.CurWave = 15
 		ent1.firstPoint = "corner_M1408_1056"
 		ent1.firstForward = "left"
 		table.insert(spawner,ent1 )
@@ -152,7 +152,7 @@ function SpawnSystem:StopWave(index)
 	spawner[index].isStop = true
 end
 
-thtd_next_bossName_list = 
+thtd_next_bossName_list =
 {
 	[1] = nil,
 	[2] = nil,
@@ -165,12 +165,12 @@ function SpawnSystem:InitAttackSpawn()
 	for i=1,SpawnSystem.TeamNumber do
 		SpawnAttackingSpawn[i]()
 	end
-	local GameMode = GameRules:GetGameModeEntity() 
+	local GameMode = GameRules:GetGameModeEntity()
 
 	GameMode:SetContextThink(DoUniqueString("SpawnerInfo"), UpdateSpawnerInfo,0)
 
 	local spawner  = SpawnSystem.AttackingSpawner
-	
+
 	local last_time = {
 		-SpawnSystem.Spawner["Attacking"]["Wave1"]["BreakTime"],
 		-SpawnSystem.Spawner["Attacking"]["Wave1"]["BreakTime"],
@@ -181,17 +181,17 @@ function SpawnSystem:InitAttackSpawn()
 		if spawner[i] ~= nil then
 			-- spawner[i].CurWave = 50
 			spawner[i]:SetContextThink(DoUniqueString("AttackSpawn"..tostring(i)) ,
-			function() 
+			function()
 
   				local newState = GameRules:State_Get()
 				if GameRules:IsGamePaused() then return 1 end
 				if GameRules:GetGameTime() < 0 or newState < DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
-					return 1 
+					return 1
 				end
-			
+
 				local wave = spawner[i].CurWave - 1
 				if wave == 0 then wave = 1 end
-				for j = 0,9 do 
+				for j = 0,9 do
 				end
 
 				local waveinfo2=string.format("%s%s%d","#","waveinfo_",wave)
@@ -199,15 +199,15 @@ function SpawnSystem:InitAttackSpawn()
 
 				local cur_time = GameRules:GetGameTime() - last_time[i]
 				local max_time = SpawnSystem.Spawner["Attacking"]["Wave"..tostring(wave)]["BreakTime"]  +
-				 				 SpawnSystem.Spawner["Attacking"]["Wave"..tostring(wave)]["Times"] 		* 
-				 				 SpawnSystem.Spawner["Attacking"]["Wave"..tostring(wave)]["Interval"]  
+				 				 SpawnSystem.Spawner["Attacking"]["Wave"..tostring(wave)]["Times"] 		*
+				 				 SpawnSystem.Spawner["Attacking"]["Wave"..tostring(wave)]["Interval"]
 
-				local uiWaveInfo = 
+				local uiWaveInfo =
 				{
 					["Wave"] =  wave,
 					["RemainingTime"] =  math.max(math.floor(max_time - cur_time),0),
 					["ProcessPercentage"] =  math.max((max_time - cur_time)/max_time,0)*100,
-				}	
+				}
 				if wave>50 then
 					uiWaveInfo["Wave"] = wave-50
 				end
@@ -219,13 +219,13 @@ function SpawnSystem:InitAttackSpawn()
 					if wave == 49 then
 						CustomGameEventManager:Send_ServerToAllClients( "show_message", {msg="spawn_unlimited", duration=193, params={count=1}, color="#0ff"} )
 					end
-					
+
 					last_time[i] = GameRules:GetGameTime()
 					SpawnSystem:StartSpawn(i)
 					spawner[i].CurWave =  spawner[i].CurWave  + 1
 				end
 				return 1
-			end, 0) 
+			end, 0)
 		end
 	end
 end
@@ -241,8 +241,10 @@ function SpawnSystem:StartSpawn(index) -- 进攻怪制取
 	local curTimes = 0
 	local Base = SpawnSystem.Base
 	local GameMode = GameRules:GetGameModeEntity()
+	local AcceptExtraMode = true
 
-	GameMode:SetContextThink(DoUniqueString("SpawnAttackingSpawn"..tostring(index)), 
+
+	GameMode:SetContextThink(DoUniqueString("SpawnAttackingSpawn"..tostring(index)),
 		function()
 			if curTimes>times  then return nil end
 			if GameRules:IsGamePaused() then  return 1 end
@@ -251,8 +253,8 @@ function SpawnSystem:StartSpawn(index) -- 进攻怪制取
 				if spawner[index].isStop == true then return nil end
 
 				local spawn_unit = WaveInfo["Unit"]
-				
-				if AcceptExtraMode == true and wave > 50 and wave%5==0 and thtd_next_bossName_list[index]~=nil then
+
+				if AcceptExtraMode == true and wave > 50 and wave%4==0 and thtd_next_bossName_list[index]~=nil then
 					spawn_unit = "creature_bosses_"..thtd_next_bossName_list[index]
 				end
 
@@ -262,7 +264,7 @@ function SpawnSystem:StartSpawn(index) -- 进攻怪制取
 				unit.thtd_poison_buff = 0
 
 				unit:AddNewModifier(unit, nil, "modifier_phased", {})
-				
+
 				if wave > 50 then
 					local currentWave = wave - 51
 					local health = unit:GetBaseMaxHealth()
@@ -275,7 +277,7 @@ function SpawnSystem:StartSpawn(index) -- 进攻怪制取
 						health = health + (currentWave - math.floor(currentWave/4)) * 28800
 					elseif GameRules:GetCustomGameDifficulty() == 4 then
 						if AcceptExtraMode == true then
-							health = health + (currentWave - math.floor(currentWave/4)) * 57600
+							health = health + (currentWave - math.floor(currentWave/4)) * 72000
 						else
 							health = health + (currentWave - math.floor(currentWave/4)) * 38400
 						end
@@ -307,7 +309,7 @@ function SpawnSystem:StartSpawn(index) -- 进攻怪制取
 					modifier:SetStackCount(math.floor(wave/4)*20)
 
 					local health = unit:GetBaseMaxHealth()*(1+(GameRules:GetCustomGameDifficulty()-1)*0.5)
-				
+
 					unit:SetBaseMaxHealth(health)
 					unit:SetMaxHealth(health)
 					unit:SetHealth(unit:GetMaxHealth())
@@ -319,7 +321,7 @@ function SpawnSystem:StartSpawn(index) -- 进攻怪制取
 					end
 				end
 
-				if AcceptExtraMode == true and wave > 50 and wave%5==0 and thtd_next_bossName_list[index]~=nil then
+				if AcceptExtraMode == true and wave > 50 and wave%4==0 and thtd_next_bossName_list[index]~=nil then
 					unit:AddNewModifier(unit, nil, "modifier_bosses_"..thtd_next_bossName_list[index], nil)
 				end
 
@@ -335,10 +337,10 @@ function SpawnSystem:StartSpawn(index) -- 进攻怪制取
 				end
 
 				if unit.next_move_forward == nil then
-					unit.next_move_forward = spawner[index].firstForward 
+					unit.next_move_forward = spawner[index].firstForward
 				end
 
-				unit:SetContextThink(DoUniqueString("AttackingBase"), 
+				unit:SetContextThink(DoUniqueString("AttackingBase"),
 				function ()
 					if unit~=nil and unit:IsNull()==false and unit:IsAlive() and unit.thtd_is_outer ~= true then
 						local origin = unit:GetOrigin()
@@ -349,7 +351,7 @@ function SpawnSystem:StartSpawn(index) -- 进攻怪制取
 					end
 					unit:MoveToPosition(unit.next_move_point)
 					return 0.1
-				end, 0) 
+				end, 0)
 			end
 			curTimes = curTimes + 1
 

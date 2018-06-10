@@ -52,31 +52,31 @@ CustomEvent.on('avalon_key_pressed',function( data )
 
 		if press_key == "6" then
 			ParticleManager:DestroyParticleSystem(hero.thtd_emoji_effect,true)
-			hero.thtd_emoji_effect = ParticleManager:CreateParticle("particles/thtd/emoji/thtd_msg_hongliange.vpcf", PATTACH_CUSTOMORIGIN, hero) 
+			hero.thtd_emoji_effect = ParticleManager:CreateParticle("particles/thtd/emoji/thtd_msg_hongliange.vpcf", PATTACH_CUSTOMORIGIN, hero)
 			ParticleManager:SetParticleControlEnt(hero.thtd_emoji_effect , 0, hero, 5, "attach_emoji", Vector(0,0,0), true)
 			ParticleManager:SetParticleControl(hero.thtd_emoji_effect, 3, Vector(1,0,0))
 			ParticleManager:DestroyParticleSystemTime(hero.thtd_emoji_effect,5.0)
 		elseif press_key == "7" then
 			ParticleManager:DestroyParticleSystem(hero.thtd_emoji_effect,true)
-			hero.thtd_emoji_effect = ParticleManager:CreateParticle("particles/thtd/emoji/thtd_msg_hongliange.vpcf", PATTACH_CUSTOMORIGIN, hero) 
+			hero.thtd_emoji_effect = ParticleManager:CreateParticle("particles/thtd/emoji/thtd_msg_hongliange.vpcf", PATTACH_CUSTOMORIGIN, hero)
 			ParticleManager:SetParticleControlEnt(hero.thtd_emoji_effect , 0, hero, 5, "attach_emoji", Vector(0,0,0), true)
 			ParticleManager:SetParticleControl(hero.thtd_emoji_effect, 3, Vector(2,0,0))
 			ParticleManager:DestroyParticleSystemTime(hero.thtd_emoji_effect,5.0)
 		elseif press_key == "8" then
 			ParticleManager:DestroyParticleSystem(hero.thtd_emoji_effect,true)
-			hero.thtd_emoji_effect = ParticleManager:CreateParticle("particles/thtd/emoji/thtd_msg_hongliange.vpcf", PATTACH_CUSTOMORIGIN, hero) 
+			hero.thtd_emoji_effect = ParticleManager:CreateParticle("particles/thtd/emoji/thtd_msg_hongliange.vpcf", PATTACH_CUSTOMORIGIN, hero)
 			ParticleManager:SetParticleControlEnt(hero.thtd_emoji_effect , 0, hero, 5, "attach_emoji", Vector(0,0,0), true)
 			ParticleManager:SetParticleControl(hero.thtd_emoji_effect, 3, Vector(3,0,0))
 			ParticleManager:DestroyParticleSystemTime(hero.thtd_emoji_effect,5.0)
 		elseif press_key == "9" then
 			ParticleManager:DestroyParticleSystem(hero.thtd_emoji_effect,true)
-			hero.thtd_emoji_effect = ParticleManager:CreateParticle("particles/thtd/emoji/thtd_msg_hongliange.vpcf", PATTACH_CUSTOMORIGIN, hero) 
+			hero.thtd_emoji_effect = ParticleManager:CreateParticle("particles/thtd/emoji/thtd_msg_hongliange.vpcf", PATTACH_CUSTOMORIGIN, hero)
 			ParticleManager:SetParticleControlEnt(hero.thtd_emoji_effect , 0, hero, 5, "attach_emoji", Vector(0,0,0), true)
 			ParticleManager:SetParticleControl(hero.thtd_emoji_effect, 3, Vector(4,0,0))
 			ParticleManager:DestroyParticleSystemTime(hero.thtd_emoji_effect,5.0)
 		elseif press_key == "0" then
 			ParticleManager:DestroyParticleSystem(hero.thtd_emoji_effect,true)
-			hero.thtd_emoji_effect = ParticleManager:CreateParticle("particles/thtd/emoji/thtd_msg_hongliange.vpcf", PATTACH_CUSTOMORIGIN, hero) 
+			hero.thtd_emoji_effect = ParticleManager:CreateParticle("particles/thtd/emoji/thtd_msg_hongliange.vpcf", PATTACH_CUSTOMORIGIN, hero)
 			ParticleManager:SetParticleControlEnt(hero.thtd_emoji_effect , 0, hero, 5, "attach_emoji", Vector(0,0,0), true)
 			ParticleManager:SetParticleControl(hero.thtd_emoji_effect, 3, Vector(5,0,0))
 			ParticleManager:DestroyParticleSystemTime(hero.thtd_emoji_effect,5.0)
@@ -108,14 +108,14 @@ CustomEvent.on('avalon_custom_control_mouse_move',function( data )
 		local pos = Vector(mouse_pos["0"],mouse_pos["1"],mouse_pos["2"])
 
 		local targets = FindUnitsInRadius(
-				hero:GetTeamNumber(), 
-				pos, 
-				nil, 
-				50, 
-				DOTA_UNIT_TARGET_TEAM_FRIENDLY, 
-				DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, 
-				DOTA_UNIT_TARGET_FLAG_NONE, 
-				FIND_CLOSEST, 
+				hero:GetTeamNumber(),
+				pos,
+				nil,
+				50,
+				DOTA_UNIT_TARGET_TEAM_FRIENDLY,
+				DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+				DOTA_UNIT_TARGET_FLAG_NONE,
+				FIND_CLOSEST,
 				false
 			)
 
@@ -150,10 +150,10 @@ CustomEvent.on('custom_game_complete_select_cards', function(data)
 
 	local mode = data["mode"] -- 选择的模式
 
-	if (mode == "Free" or AcceptExtraMode == true) then -- 自由选择
+	if mode == "Free" then -- 自由选择
 		local cards = data["cards"] -- 选择的卡组
 		for k,v in pairs(cards) do
-			local itemTable = 
+			local itemTable =
 			{
 				["itemName"] = k,
 				["quality"]= towerNameList[k]["quality"],
@@ -163,15 +163,15 @@ CustomEvent.on('custom_game_complete_select_cards', function(data)
 		end
 		PrintTable(towerPlayerList[data.PlayerID+1])
 
-		--[[if not HasTouhouVIP(data.PlayerID) then
-			ServerEvent( "save_selected_cards", data.PlayerID, {cards=cards} )
-		end]]
-	
+		--if not HasTouhouVIP(data.PlayerID) then
+		--	ServerEvent( "save_selected_cards", data.PlayerID, {cards=cards} )
+		--end
+
 	elseif mode == "AutoRandom" then -- 自动随机
 		if HasAutoRandomExtensionPacks(data.PlayerID) then
 			towerPlayerList[data.PlayerID+1] = {}
 			for k,v in pairs(towerNameList) do
-				local itemTable = 
+				local itemTable =
 				{
 					["itemName"] = k,
 					["quality"]= towerNameList[k]["quality"],
@@ -181,7 +181,7 @@ CustomEvent.on('custom_game_complete_select_cards', function(data)
 					itemTable["count"] = 10
 				end
 				if string.find(itemTable["itemName"], 'item_20') ~= nil then
-					if itemTable["itemName"] == "item_2021" or itemTable["itemName"] == "item_2022" 
+					if itemTable["itemName"] == "item_2021" or itemTable["itemName"] == "item_2022"
 					or itemTable["itemName"] == "item_2023" or itemTable["itemName"] == "item_2024" then
 						itemTable["count"] = 1
 					else
@@ -195,7 +195,7 @@ CustomEvent.on('custom_game_complete_select_cards', function(data)
 		else
 			local cardpool = GetPlayerCardPool(data.PlayerID)
 			for k,v in pairs(cardpool) do
-				local itemTable = 
+				local itemTable =
 				{
 					["itemName"] = k,
 					["quality"]= towerNameList[k]["quality"],
@@ -205,7 +205,7 @@ CustomEvent.on('custom_game_complete_select_cards', function(data)
 					itemTable["count"] = 10
 				end
 				if string.find(itemTable["itemName"], 'item_20') ~= nil then
-					if itemTable["itemName"] == "item_2021" or itemTable["itemName"] == "item_2022" 
+					if itemTable["itemName"] == "item_2021" or itemTable["itemName"] == "item_2022"
 					or itemTable["itemName"] == "item_2023" or itemTable["itemName"] == "item_2024" then
 						itemTable["count"] = 1
 					else

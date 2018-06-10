@@ -149,7 +149,6 @@ function OnKanako03ReleaseUnit(caster,target)
 	if caster.thtd_kanako_gojou_group == nil then
 		caster.thtd_kanako_gojou_group = {}
 	end
-	caster.thtd_kanako_gojou_count = caster.thtd_kanako_gojou_count - 1
 	for k,v in pairs(caster.thtd_kanako_gojou_group) do
 		if v==nil or v:IsNull() or v:IsAlive()==false or v == target then
 			if v.thtd_kanako_03_gojou_effect~=nil then
@@ -163,6 +162,7 @@ function OnKanako03ReleaseUnit(caster,target)
 				v.thtd_kanako_03_last_link_unit.thtd_kanako_03_is_contact = false
 			end
 			table.remove(caster.thtd_kanako_gojou_group,k)
+			caster.thtd_kanako_gojou_count = caster.thtd_kanako_gojou_count - 1
 		end
 	end
 
@@ -213,40 +213,39 @@ function OnKanako03Think(keys)
 		for k,v in pairs(caster.thtd_kanako_gojou_group) do
 			OnKanako03ReleaseUnit(caster,v)
 		end
-		return 
-	end
+	else
+		for k,v in pairs(caster.thtd_kanako_gojou_group) do
+			if v~=nil and v:IsNull()==false and v:IsAlive() and v.thtd_kanako_03_is_contact == true then
+				if v.thtd_kanako_03_last_link_unit ~= nil and v.thtd_kanako_03_last_link_unit:IsNull()==false and v.thtd_kanako_03_last_link_unit:IsAlive() then
+					local targets = 
+						FindUnitsInLine(
+							caster:GetTeamNumber(), 
+							v:GetOrigin(), 
+							v.thtd_kanako_03_last_link_unit:GetOrigin(), 
+							nil, 
+							80,	
+							keys.ability:GetAbilityTargetTeam(), 
+							keys.ability:GetAbilityTargetType(), 
+							keys.ability:GetAbilityTargetFlags()
+						)
 
-	for k,v in pairs(caster.thtd_kanako_gojou_group) do
-		if v~=nil and v:IsNull()==false and v:IsAlive() and v.thtd_kanako_03_is_contact == true then
-			if v.thtd_kanako_03_last_link_unit ~= nil and v.thtd_kanako_03_last_link_unit:IsNull()==false and v.thtd_kanako_03_last_link_unit:IsAlive() then
-				local targets = 
-					FindUnitsInLine(
-						caster:GetTeamNumber(), 
-						v:GetOrigin(), 
-						v.thtd_kanako_03_last_link_unit:GetOrigin(), 
-						nil, 
-						80,	
-						keys.ability:GetAbilityTargetTeam(), 
-						keys.ability:GetAbilityTargetType(), 
-						keys.ability:GetAbilityTargetFlags()
-					)
-
-				for index,unit in pairs(targets) do
-				   	local modifier = unit:FindModifierByName("modifier_kanako_03_damaged")
-				   	if modifier == nil then
-						keys.ability:ApplyDataDrivenModifier(caster, unit, "modifier_kanako_03_damaged", {Duration=0.2})
-						local damage = caster:THTD_GetPower() * caster:THTD_GetStar()  * thtd_kanako_gojou_star_damage_bonus[caster:THTD_GetStar()]
-						local DamageTable = {
-								ability = keys.ability,
-						        victim = unit, 
-						        attacker = caster, 
-						        damage = damage * (1 + caster:THTD_GetFaith()/1000), 
-						        damage_type = keys.ability:GetAbilityDamageType(), 
-						        damage_flags = DOTA_DAMAGE_FLAG_NONE
-					   	}
-					   	UnitDamageTarget(DamageTable)
-					else
-						modifier:SetDuration(0.2,false)
+					for index,unit in pairs(targets) do
+					   	local modifier = unit:FindModifierByName("modifier_kanako_03_damaged")
+					   	if modifier == nil then
+							keys.ability:ApplyDataDrivenModifier(caster, unit, "modifier_kanako_03_damaged", {Duration=0.2})
+							local damage = caster:THTD_GetPower() * caster:THTD_GetStar()  * thtd_kanako_gojou_star_damage_bonus[caster:THTD_GetStar()]
+							local DamageTable = {
+									ability = keys.ability,
+							        victim = unit, 
+							        attacker = caster, 
+							        damage = damage * (1 + caster:THTD_GetFaith()/1000), 
+							        damage_type = keys.ability:GetAbilityDamageType(), 
+							        damage_flags = DOTA_DAMAGE_FLAG_NONE
+						   	}
+						   	UnitDamageTarget(DamageTable)
+						else
+							modifier:SetDuration(0.2,false)
+						end
 					end
 				end
 			end

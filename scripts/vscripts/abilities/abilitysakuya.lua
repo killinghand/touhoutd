@@ -88,6 +88,7 @@ local sakuya_02_black_list =
 	"thtd_kanako_04",
 	"thtd_sanae_04",
 	"thtd_miko_04",
+	"thtd_keine_01",
 }
 
 function IsInSakuya02BlackList(ability)

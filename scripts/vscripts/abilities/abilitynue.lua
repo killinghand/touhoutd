@@ -26,11 +26,11 @@ function OnNue01AttackLanded(keys)
 	local target = keys.target
 
 	local DamageTable = {
-			victim = target, 
-			attacker = caster, 
+			victim = target,
+			attacker = caster,
 			ability = keys.ability,
-			damage = GetNueExtraDamage(caster), 
-			damage_type = keys.ability:GetAbilityDamageType(), 
+			damage = GetNueExtraDamage(caster),
+			damage_type = keys.ability:GetAbilityDamageType(),
 			damage_flags = keys.ability:GetAbilityTargetFlags()
 	}
 	if target:HasModifier("modifier_minamitsu_01_slow_buff") then
@@ -41,11 +41,11 @@ function OnNue01AttackLanded(keys)
 		if target:GetHealth() / target:GetMaxHealth() < 0.1 then
 			target:SetHealth(1)
 			local damage_kill = {
-					victim = target, 
-					attacker = caster, 
+					victim = target,
+					attacker = caster,
 					ability = keys.ability,
-					damage = caster:THTD_GetPower() * caster:THTD_GetStar(), 
-					damage_type = keys.ability:GetAbilityDamageType(), 
+					damage = caster:THTD_GetPower() * caster:THTD_GetStar(),
+					damage_type = keys.ability:GetAbilityDamageType(),
 					damage_flags = keys.ability:GetAbilityTargetFlags()
 			}
 			UnitDamageTarget(damage_kill)
@@ -64,7 +64,7 @@ function OnNue02SpellHit(keys)
 			    victim = keys.target,
 			    attacker = caster,
 			    damage = caster:THTD_GetPower() * caster:THTD_GetStar() + GetNueExtraDamage(caster) * keys.damage_percent,
-			    damage_type = keys.ability:GetAbilityDamageType(), 
+			    damage_type = keys.ability:GetAbilityDamageType(),
 	    	    damage_flags = keys.ability:GetAbilityTargetFlags()
 	}
 	if keys.target:HasModifier("modifier_minamitsu_01_slow_buff") then
@@ -75,11 +75,11 @@ function OnNue02SpellHit(keys)
 		if keys.target:GetHealth() / keys.target:GetMaxHealth() < 0.1 then
 			keys.target:SetHealth(1)
 			local damage_kill = {
-					victim = keys.target, 
-					attacker = caster, 
+					victim = keys.target,
+					attacker = caster,
 					ability = keys.ability,
-					damage = caster:THTD_GetPower() * caster:THTD_GetStar(), 
-					damage_type = keys.ability:GetAbilityDamageType(), 
+					damage = caster:THTD_GetPower() * caster:THTD_GetStar(),
+					damage_type = keys.ability:GetAbilityDamageType(),
 					damage_flags = keys.ability:GetAbilityTargetFlags()
 			}
 			UnitDamageTarget(damage_kill)

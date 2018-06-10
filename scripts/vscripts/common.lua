@@ -6,7 +6,7 @@ THTD_Custom_Hit_Block = {}
 function GetTempleOfGodBuffedTowerCount(targets)
     local count = 1
     for k,v in pairs(targets) do
-        if v:GetUnitName() == "soga" or v:GetUnitName() == "miko" or v:GetUnitName() == "futo" or v:GetUnitName() == "yoshika" then
+        if v:GetUnitName() == "soga" or v:GetUnitName() == "miko" or v:GetUnitName() == "futo" or v:GetUnitName() == "yoshika" or v:GetUnitName() == "seiga" then
             if v:HasModifier("modifier_miko_02_buff") then
                 count = count + 1
             end
@@ -15,10 +15,23 @@ function GetTempleOfGodBuffedTowerCount(targets)
     return count
 end
 
+
+function THTD_GetAllTempleOfGodTowerStarCount(caster)
+    local star = 0
+    for k,v in pairs(caster:GetOwner().thtd_hero_tower_list) do
+        if v~=nil and v:IsNull()==false and v:IsAlive() and v:GetUnitName() == towerName then
+            if v:HasModifier("modifier_miko_02_buff") then
+                star = star + v:THTD_GetStar()
+            end
+        end
+    end
+    return star
+end
+
 function GetTempleOfGodTowerCount(hero)
     local count = 0
     for k,v in pairs(hero.thtd_hero_tower_list) do
-        if v:GetUnitName() == "soga" or v:GetUnitName() == "miko" or v:GetUnitName() == "futo" or v:GetUnitName() == "yoshika" then
+        if v:GetUnitName() == "soga" or v:GetUnitName() == "miko" or v:GetUnitName() == "futo" or v:GetUnitName() == "yoshika" or v:GetUnitName() == "seiga" then
             count = count + 1
         end
     end
@@ -26,7 +39,7 @@ function GetTempleOfGodTowerCount(hero)
 end
 
 function IsTempleOfGodTower(unit)
-    if unit:GetUnitName() == "soga" or unit:GetUnitName() == "futo" or unit:GetUnitName() == "yoshika" then
+    if unit:GetUnitName() == "soga" or unit:GetUnitName() == "futo" or unit:GetUnitName() == "yoshika" or unit:GetUnitName() == "seiga" then
         return true
     end
     return false
@@ -92,6 +105,25 @@ function THTD_GetIntPart(x)
     end
 
     return x
+end
+
+function THTD_GetAllTowerStarCount(caster)
+    local star = 0
+    for k,v in pairs(caster:GetOwner().thtd_hero_tower_list) do
+        if v~=nil and v:IsNull()==false and v:IsAlive() and v:GetUnitName() == towerName then
+            star = star + v:THTD_GetStar()
+        end
+    end
+    return star
+end
+
+function THTD_GetFirstTowerByName(caster,towerName)
+    for k,v in pairs(caster:GetOwner().thtd_hero_tower_list) do
+        if v~=nil and v:IsNull()==false and v:IsAlive() and v:GetUnitName() == towerName then
+            return v
+        end
+    end
+    return nil
 end
 
 function THTD_FindFriendlyUnitsAll(caster)
